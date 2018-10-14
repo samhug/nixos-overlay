@@ -2,15 +2,15 @@
 
 buildGoPackage rec {
   name = "remote-zfs-unlock-${version}";
-  version = "2018-10-13";
-  rev = "6d9266b50076342b4460d322430ee44ae078f474";
+  version = "v0.1.0";
+  rev = "v0.1.0";
 
   goPackagePath = "github.com/samuelhug/remote-zfs-unlock";
 
   src = fetchgit {
     inherit rev;
     url = "https://github.com/samuelhug/remote-zfs-unlock.git";
-    sha256 = "1wpz8sr07cpsc5h9qwrhfnylw2xs172rs6x3virwlpnag4dqzp4g";
+    sha256 = "1mb7f7xrkxsmq9rlay30k2354dm7prspi2490bkf623k3pnxi5qg";
   };
 
   CGO_LDFLAGS_ALLOW="-std=c\\+\\+11";

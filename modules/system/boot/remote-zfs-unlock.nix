@@ -125,7 +125,7 @@ in
       '') cfg.sshShell)}
       echo ']' >> /etc/remote-zfs-unlock/config.toml
 
-      remote-zfs-unlock
+      remote-zfs-unlock -config=/etc/remote-zfs-unlock/config.toml
     '';
 
     boot.initrd.secrets =
