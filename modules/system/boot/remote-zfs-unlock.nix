@@ -30,11 +30,19 @@ in
       '';
     };
 
-    ztHomePath = mkOption {
+    #ztHomePath = mkOption {
+    #  type = types.nullOr types.path;
+    #  default = null;
+    #  description = ''
+    #    Path to ZeroTier configuration home.
+    #  '';
+    #};
+
+    ztNodeKey = mkOption {
       type = types.nullOr types.path;
       default = null;
       description = ''
-        Path to ZeroTier configuration home.
+        Path to a file containing the ZeroTier node secret. ($ZT_HOME/identity.secret)
       '';
     };
 
@@ -77,8 +85,8 @@ in
       { assertion = cfg.sshAuthorizedKeys != [];
         message = "You should specify at least one authorized key for initrd remote-zfs-unlock";
       }
-      { assertion = cfg.ztHomePath != null;
-        message = "You must specify a ztHomePath";
+      { assertion = cfg.ztNodeKey != null;
+        message = "You must specify a ztNodeKay";
       }
       { assertion = cfg.sshHostKey != null;
         message = "You must specify a sshHostKey";
@@ -87,8 +95,7 @@ in
 
     boot.initrd.extraUtilsCommands = ''
       copy_bin_and_libs ${cfg.package}/bin/remote-zfs-unlock
-      mkdir -p $out/etc/remote-zfs-unlock
-      cp -r ${cfg.ztHomePath} $out/etc/remote-zfs-unlock/zt_home
+      mkdir -p $out/etc/remote-zfs-unlock/zt_home
     '';
 
     #boot.initrd.extraUtilsCommandsTest = ''
@@ -96,7 +103,6 @@ in
     #'';
 
     boot.initrd.network.postCommands = ''
-      #mkdir -p /etc/remote-zfs-unlock
       touch /etc/remote-zfs-unlock/config.toml
 
       echo '[ZeroTier]' >> /etc/remote-zfs-unlock/config.toml
@@ -123,7 +129,8 @@ in
     '';
 
     boot.initrd.secrets =
-     (optionalAttrs (cfg.sshHostKey != null) { "/etc/remote-zfs-unlock/ssh_host_key" = cfg.sshHostKey; });
+     (optionalAttrs (cfg.sshHostKey != null) { "/etc/remote-zfs-unlock/ssh_host_key" = cfg.sshHostKey; }) //
+     (optionalAttrs (cfg.sshHostKey != null) { "/etc/remote-zfs-unlock/zt_home/identity.secret" = cfg.ztNodeKey; });
 
   };
 
