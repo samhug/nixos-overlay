@@ -104,7 +104,7 @@ in
       echo 'home_path = "/etc/remote-zfs-unlock/zt_home"' >> /etc/remote-zfs-unlock/config.toml
 
       echo '[SSH]' >> /etc/remote-zfs-unlock/config.toml
-      echo 'listen_port = "${cfg.sshPort}"' >> /etc/remote-zfs-unlock/config.toml
+      echo 'listen_port = "${toString cfg.sshPort}"' >> /etc/remote-zfs-unlock/config.toml
       echo 'host_key_path = "/etc/remote-zfs-unlock/ssh_host_key"' >> /etc/remote-zfs-unlock/config.toml
 
       echo 'authorized_keys = [' >> /etc/remote-zfs-unlock/config.toml
