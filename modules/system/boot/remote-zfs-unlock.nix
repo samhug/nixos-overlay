@@ -95,6 +95,7 @@ in
 
     boot.initrd.extraUtilsCommands = ''
       copy_bin_and_libs ${cfg.package}/bin/remote-zfs-unlock
+      cp -pv ${pkgs.glibc.out}/lib/libnss_files.so.* $out/lib
       mkdir -p $out/etc/remote-zfs-unlock/zt_home
     '';
 
