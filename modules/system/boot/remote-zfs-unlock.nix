@@ -91,9 +91,9 @@ in
       mkdir -p $out/etc/remote-zfs-unlock/zt_home
     '';
 
-    boot.initrd.extraUtilsCommandsTest = ''
-      $out/bin/remote-zfs-unlock --help
-    '';
+    #boot.initrd.extraUtilsCommandsTest = ''
+    #  $out/bin/remote-zfs-unlock --help
+    #'';
 
     boot.initrd.network.postCommands = ''
       touch /etc/remote-zfs-unlock/config.toml
