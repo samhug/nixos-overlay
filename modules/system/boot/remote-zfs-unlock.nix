@@ -30,14 +30,6 @@ in
       '';
     };
 
-    #ztHomePath = mkOption {
-    #  type = types.nullOr types.path;
-    #  default = null;
-    #  description = ''
-    #    Path to ZeroTier configuration home.
-    #  '';
-    #};
-
     ztNodeKey = mkOption {
       type = types.nullOr types.path;
       default = null;
@@ -99,9 +91,9 @@ in
       mkdir -p $out/etc/remote-zfs-unlock/zt_home
     '';
 
-    #boot.initrd.extraUtilsCommandsTest = ''
-    #  $out/bin/remote-zfs-unlock -V
-    #'';
+    boot.initrd.extraUtilsCommandsTest = ''
+      $out/bin/remote-zfs-unlock --help
+    '';
 
     boot.initrd.network.postCommands = ''
       touch /etc/remote-zfs-unlock/config.toml
@@ -126,7 +118,7 @@ in
       '') cfg.sshShell)}
       echo ']' >> /etc/remote-zfs-unlock/config.toml
 
-      remote-zfs-unlock -config=/etc/remote-zfs-unlock/config.toml
+      LD_LIBRARY_PATH=$out/lib remote-zfs-unlock -config=/etc/remote-zfs-unlock/config.toml
     '';
 
     boot.initrd.secrets =
