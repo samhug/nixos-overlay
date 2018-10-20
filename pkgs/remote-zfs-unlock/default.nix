@@ -7,6 +7,8 @@ buildGoPackage rec {
 
   goPackagePath = "github.com/samuelhug/remote-zfs-unlock";
 
+  buildInputs = [ stdenv.glibc.static ];
+
   src = fetchgit {
     inherit rev;
     url = "https://github.com/samuelhug/remote-zfs-unlock.git";
@@ -14,6 +16,8 @@ buildGoPackage rec {
   };
 
   CGO_LDFLAGS_ALLOW="-std=c\\+\\+11";
+
+  buildFlags = "-ldflags -s -ldflags -w -ldflags -linkmode=external -ldflags -extldflags=-static";
 
   # TODO: add metadata https://nixos.org/nixpkgs/manual/#sec-standard-meta-attributes
   meta = {
