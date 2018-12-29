@@ -1,5 +1,5 @@
 {
   imports = [
-    ./system/boot/remote-zfs-unlock.nix
+    ./system/boot/zfs-remote-keyloader.nix
   ];
 }

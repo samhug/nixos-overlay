@@ -5,5 +5,5 @@ let
 in
 {
   ndm = callPackage ./ndm {};
-  remote-zfs-unlock = callPackage ./remote-zfs-unlock {};
+  zfs-remote-keyloader = callPackage ./zfs-remote-keyloader {};
 }
