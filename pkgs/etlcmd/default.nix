@@ -2,16 +2,16 @@
 { stdenv, buildGoPackage, fetchgit }:
 
 buildGoPackage rec {
-  name = "etlcmd-unstable-${version}";
-  version = "2018-12-11";
-  rev = "b8525739a933d41bf768a27ca6bedbf4fd34e086";
+  name = "etlcmd-${version}";
+  version = "0.3.4";
+  rev = "v${version}";
 
-  goPackagePath = "github.com/samuelhug/etlcmd";
+  goPackagePath = "github.com/samhug/etlcmd";
 
   src = fetchgit {
     inherit rev;
-    url = "https://github.com/samuelhug/etlcmd.git";
-    sha256 = "1m656b5a644p8id2zzpsdmhwsx90bw9p4z1pdpp2ngz9vfp9d4iw";
+    url = "https://github.com/samhug/etlcmd.git";
+    sha256 = "1x8vdr8vcwsgpnk1jn5kg48r9ww2lnwll2wnq5a8jvixya4n23qy";
   };
 
   goDeps = ./deps.nix;
