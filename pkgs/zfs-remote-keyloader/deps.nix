@@ -5,8 +5,8 @@
     fetch = {
       type = "git";
       url = "https://github.com/spf13/cobra";
-      rev = "d2d81d9a96e23f0255397222bb0b4e3165e492dc";
-      sha256 = "14nhpiyhz2lm468y5sm1vyxks5aky12kmbhmqq319s92lkm494cy";
+      rev = "7547e83b2d85fd1893c7d76916f67689d761fecb";
+      sha256 = "0hf8ja243113hq6603hxr38ghcbix06vrmri9gqarsn6dwn4l4bv";
     };
   }
   {
