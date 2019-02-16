@@ -3,8 +3,8 @@
 
 buildGoPackage rec {
   name = "zfs-remote-keyloader-${version}";
-  version = "2019-02-15";
-  rev = "6bedb587bb8728f766f0b4c82e6e349c5b3c09df";
+  version = "2019-02-16";
+  rev = "cd39e9685544343e184c609ae775ce6ac2f8b219";
 
   goPackagePath = "github.com/samhug/zfs-remote-keyloader";
 
@@ -15,7 +15,7 @@ buildGoPackage rec {
   src = fetchgit {
     inherit rev;
     url = "https://github.com/samhug/zfs-remote-keyloader.git";
-    sha256 = "0wllcg6470mxb54s0pwbyj2bwv3cl58z7b375dvzxihpilfggvhr";
+    sha256 = "0zj33ds7qn1z508y6lfsmicl9kv0v216m4vsr267lwmkargn88cn";
   };
 
   goDeps = ./deps.nix;
