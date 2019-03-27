@@ -4,6 +4,7 @@ let
   inherit (self) callPackage;
 in
 {
+  co2_logger = callPackage ./co2_logger {};
   coredns = callPackage ./coredns {};
   etlcmd = callPackage ./etlcmd {};
   gobgp = callPackage ./gobgp {};
