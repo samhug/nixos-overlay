@@ -10,5 +10,12 @@ sudo nix-channel --update nixos-overlay
 
 [channel index](https://samhug.github.io/nixos-overlay/)
 
+### Notes:
+
+Test build a package:
+```
+$ nix-build -E 'with import <nixpkgs> { overlays = [(import ./pkgs)]; }; pkgs.co2_logger'
+```
+
 ---
 This repo was modeled after https://gitlab.com/yegortimoshenko/nixos-overlay and https://github.com/jtojnar/nix-extrapkgs
