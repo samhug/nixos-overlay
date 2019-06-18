@@ -9,6 +9,7 @@ in
   etlcmd = callPackage ./etlcmd {};
   gobgp = callPackage ./gobgp {};
   ndm = callPackage ./ndm {};
+  termproxy = callPackage ./termproxy {};
   wy60 = callPackage ./wy60 {};
   zfs-remote-keyloader = callPackage ./zfs-remote-keyloader {};
 }
