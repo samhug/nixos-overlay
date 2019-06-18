@@ -3,7 +3,7 @@
 
 buildGoPackage rec {
   name = "etlcmd-${version}";
-  version = "0.3.4";
+  version = "0.3.5";
   rev = "v${version}";
 
   goPackagePath = "github.com/samhug/etlcmd";
@@ -11,7 +11,7 @@ buildGoPackage rec {
   src = fetchgit {
     inherit rev;
     url = "https://github.com/samhug/etlcmd.git";
-    sha256 = "1x8vdr8vcwsgpnk1jn5kg48r9ww2lnwll2wnq5a8jvixya4n23qy";
+    sha256 = "0vjwy06g7l0i7wqi2059x546gwigxa8c5i7dnclmq2pmlk85z6f5";
   };
 
   goDeps = ./deps.nix;
