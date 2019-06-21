@@ -6,6 +6,7 @@ in
 {
   co2_logger = callPackage ./co2_logger {};
   coredns = callPackage ./coredns {};
+  csvdiff = callPackage ./csvdiff {};
   etlcmd = callPackage ./etlcmd {};
   gobgp = callPackage ./gobgp {};
   ndm = callPackage ./ndm {};
