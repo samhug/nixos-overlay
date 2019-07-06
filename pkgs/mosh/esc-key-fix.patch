@@ -1,0 +1,69 @@
+diff -ur mosh-1.3.2-upstream/man/mosh.1 mosh-1.3.2/man/mosh.1
+--- mosh-1.3.2-upstream/man/mosh.1	2017-07-22 14:14:53.000000000 -0700
++++ mosh-1.3.2/man/mosh.1	2019-07-06 15:11:18.776240149 -0700
+@@ -2,7 +2,7 @@
+ .\" First parameter, NAME, should be all caps
+ .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+ .\" other parameters are allowed: see man(7), man(1)
+-.TH MOSH 1 "April 2013"
++.TH MOSH 1 "April 2014"
+ .\" Please adjust this date whenever revising the manpage.
+ .\"
+ .\" Some roff macros, for reference:
+@@ -276,7 +276,9 @@
+ 
+ The escape sequence to shut down the connection is
+ \fBEsc .\fP. The sequence \fBEsc Ctrl-Z\fP suspends the client.
+-Any other sequence passes both characters through to the server.
++\fBCtrl-^ Ctrl-L\fP refreshes the client display without sending
++anything to the server.  Any other sequence passes both charactersr
++through to the server.
+ 
+ .SH ENVIRONMENT VARIABLES
+ These variables are not actually interpreted by
+diff -ur mosh-1.3.2-upstream/src/frontend/stmclient.cc mosh-1.3.2/src/frontend/stmclient.cc
+--- mosh-1.3.2-upstream/src/frontend/stmclient.cc	2017-07-22 14:14:53.000000000 -0700
++++ mosh-1.3.2/src/frontend/stmclient.cc	2019-07-06 15:23:04.220870779 -0700
+@@ -186,7 +186,7 @@
+     wstring escape_pass_name = std::wstring(tmp.begin(), tmp.end());
+     tmp = string( escape_key_name_buf );
+     wstring escape_key_name = std::wstring(tmp.begin(), tmp.end());
+-    escape_key_help = L"Commands: Ctrl-Z suspends, \".\" quits, " + escape_pass_name + L" gives literal " + escape_key_name;
++    escape_key_help = L"Commands: Ctrl-Z suspends, \".\" quits, Ctrl-L redraws, " + escape_pass_name + L" sends " + escape_key_name;
+     overlays.get_notification_engine().set_escape_key_string( tmp );
+   }
+   wchar_t tmp[ 128 ];
+@@ -317,8 +317,6 @@
+     for ( int i = 0; i < bytes_read; i++ ) {
+       char the_byte = buf[ i ];
+ 
+-      overlays.get_prediction_engine().new_user_byte( the_byte, local_framebuffer );
+-
+       if ( quit_sequence_started ) {
+ 	if ( the_byte == '.' ) { /* Quit sequence is Ctrl-^ . */
+ 	  if ( network->has_remote_addr() && (!network->shutdown_in_progress()) ) {
+@@ -348,10 +346,16 @@
+ 	} else if ( (the_byte == escape_pass_key) || (the_byte == escape_pass_key2) ) {
+ 	  /* Emulation sequence to type escape_key is escape_key +
+ 	     escape_pass_key (that is escape key without Ctrl) */
++          overlays.get_prediction_engine().new_user_byte( escape_key, local_framebuffer );
+ 	  network->get_current_state().push_back( Parser::UserByte( escape_key ) );
++	} else if ( the_byte == 0x0C ) {
++	  /* Escape key followed by ^L repaints locally, without sending to server. */
++	  repaint_requested = true;
+ 	} else {
+ 	  /* Escape key followed by anything other than . and ^ gets sent literally */
++          overlays.get_prediction_engine().new_user_byte( escape_key, local_framebuffer );
+ 	  network->get_current_state().push_back( Parser::UserByte( escape_key ) );
++          overlays.get_prediction_engine().new_user_byte( the_byte, local_framebuffer );
+ 	  network->get_current_state().push_back( Parser::UserByte( the_byte ) );	  
+ 	}
+ 
+@@ -377,6 +381,7 @@
+ 	repaint_requested = true;
+       }
+ 
++      overlays.get_prediction_engine().new_user_byte( the_byte, local_framebuffer );
+       network->get_current_state().push_back( Parser::UserByte( the_byte ) );		
+     }
+   }

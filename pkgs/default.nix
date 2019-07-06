@@ -9,6 +9,7 @@ in
   csvdiff = callPackage ./csvdiff {};
   etlcmd = callPackage ./etlcmd {};
   gobgp = callPackage ./gobgp {};
+  mosh = callPackage ./mosh { inherit (super) mosh; };
   ndm = callPackage ./ndm {};
   termproxy = callPackage ./termproxy {};
   wy60 = callPackage ./wy60 {};
