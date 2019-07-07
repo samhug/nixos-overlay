@@ -7,6 +7,7 @@ in
   co2_logger = callPackage ./co2_logger {};
   coredns = callPackage ./coredns {};
   csvdiff = callPackage ./csvdiff {};
+  evcxr_jupyter = callPackage ./evcxr_jupyter {};
   etlcmd = callPackage ./etlcmd {};
   gobgp = callPackage ./gobgp {};
   mosh = callPackage ./mosh { inherit (super) mosh; };
