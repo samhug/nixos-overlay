@@ -5,6 +5,21 @@ let inherit (lib.lists) fold;
 in
 rec {
 
+# adler32-1.0.3
+
+  crates.adler32."1.0.3" = deps: { features?(features_.adler32."1.0.3" deps {}) }: buildRustCrate {
+    crateName = "adler32";
+    version = "1.0.3";
+    description = "Minimal Adler32 implementation for Rust.";
+    authors = [ "Remi Rampin <remirampin@gmail.com>" ];
+    sha256 = "1z3mvjgw02mbqk98kizzibrca01d5wfkpazsrp3vkkv3i56pn6fb";
+  };
+  features_.adler32."1.0.3" = deps: f: updateFeatures f (rec {
+    adler32."1.0.3".default = (f.adler32."1.0.3".default or true);
+  }) [];
+
+
+# end
 # aho-corasick-0.6.10
 
   crates.aho_corasick."0.6.10" = deps: { features?(features_.aho_corasick."0.6.10" deps {}) }: buildRustCrate {
@@ -45,235 +60,223 @@ rec {
 
 
 # end
-# argon2rs-0.2.5
+# arrayref-0.3.5
 
-  crates.argon2rs."0.2.5" = deps: { features?(features_.argon2rs."0.2.5" deps {}) }: buildRustCrate {
-    crateName = "argon2rs";
-    version = "0.2.5";
-    description = "The pure Rust password hashing library that runs on Argon2.";
-    authors = [ "bryant <bryant@defrag.in>" ];
-    sha256 = "1byl9b3wwyrarn8qack21v5fi2qsnn3y5clvikk2apskhmnih1rw";
-    dependencies = mapFeatures features ([
-      (crates."blake2_rfc"."${deps."argon2rs"."0.2.5"."blake2_rfc"}" deps)
-      (crates."scoped_threadpool"."${deps."argon2rs"."0.2.5"."scoped_threadpool"}" deps)
-    ]);
-    features = mkFeatures (features."argon2rs"."0.2.5" or {});
+  crates.arrayref."0.3.5" = deps: { features?(features_.arrayref."0.3.5" deps {}) }: buildRustCrate {
+    crateName = "arrayref";
+    version = "0.3.5";
+    description = "Macros to take array references of slices";
+    authors = [ "David Roundy <roundyd@physics.oregonstate.edu>" ];
+    sha256 = "00dfn9lbr4pc524imc25v3rbmswiqk3jldsgmx4rdngcpxb8ssjf";
   };
-  features_.argon2rs."0.2.5" = deps: f: updateFeatures f (rec {
-    argon2rs."0.2.5".default = (f.argon2rs."0.2.5".default or true);
-    blake2_rfc = fold recursiveUpdate {} [
-      { "${deps.argon2rs."0.2.5".blake2_rfc}"."simd_asm" =
-        (f.blake2_rfc."${deps.argon2rs."0.2.5".blake2_rfc}"."simd_asm" or false) ||
-        (argon2rs."0.2.5"."simd" or false) ||
-        (f."argon2rs"."0.2.5"."simd" or false); }
-      { "${deps.argon2rs."0.2.5".blake2_rfc}".default = true; }
-    ];
-    scoped_threadpool."${deps.argon2rs."0.2.5".scoped_threadpool}".default = true;
-  }) [
-    (features_.blake2_rfc."${deps."argon2rs"."0.2.5"."blake2_rfc"}" deps)
-    (features_.scoped_threadpool."${deps."argon2rs"."0.2.5"."scoped_threadpool"}" deps)
-  ];
-
-
-# end
-# arrayvec-0.4.10
-
-  crates.arrayvec."0.4.10" = deps: { features?(features_.arrayvec."0.4.10" deps {}) }: buildRustCrate {
-    crateName = "arrayvec";
-    version = "0.4.10";
-    description = "A vector with fixed capacity, backed by an array (it can be stored on the stack too). Implements fixed capacity ArrayVec and ArrayString.";
-    authors = [ "bluss" ];
-    sha256 = "0qbh825i59w5wfdysqdkiwbwkrsy7lgbd4pwbyb8pxx8wc36iny8";
-    dependencies = mapFeatures features ([
-      (crates."nodrop"."${deps."arrayvec"."0.4.10"."nodrop"}" deps)
-    ]);
-    features = mkFeatures (features."arrayvec"."0.4.10" or {});
-  };
-  features_.arrayvec."0.4.10" = deps: f: updateFeatures f (rec {
-    arrayvec = fold recursiveUpdate {} [
-      { "0.4.10"."serde" =
-        (f.arrayvec."0.4.10"."serde" or false) ||
-        (f.arrayvec."0.4.10".serde-1 or false) ||
-        (arrayvec."0.4.10"."serde-1" or false); }
-      { "0.4.10"."std" =
-        (f.arrayvec."0.4.10"."std" or false) ||
-        (f.arrayvec."0.4.10".default or false) ||
-        (arrayvec."0.4.10"."default" or false); }
-      { "0.4.10".default = (f.arrayvec."0.4.10".default or true); }
-    ];
-    nodrop."${deps.arrayvec."0.4.10".nodrop}".default = (f.nodrop."${deps.arrayvec."0.4.10".nodrop}".default or false);
-  }) [
-    (features_.nodrop."${deps."arrayvec"."0.4.10"."nodrop"}" deps)
-  ];
-
-
-# end
-# autocfg-0.1.4
-
-  crates.autocfg."0.1.4" = deps: { features?(features_.autocfg."0.1.4" deps {}) }: buildRustCrate {
-    crateName = "autocfg";
-    version = "0.1.4";
-    description = "Automatic cfg for Rust compiler features";
-    authors = [ "Josh Stone <cuviper@gmail.com>" ];
-    sha256 = "1xhpq1h2rqhqx95rc20x3wxi5yhv4a62jr269b8dqyhp8r84ss9i";
-  };
-  features_.autocfg."0.1.4" = deps: f: updateFeatures f (rec {
-    autocfg."0.1.4".default = (f.autocfg."0.1.4".default or true);
+  features_.arrayref."0.3.5" = deps: f: updateFeatures f (rec {
+    arrayref."0.3.5".default = (f.arrayref."0.3.5".default or true);
   }) [];
 
 
 # end
-# backtrace-0.3.32
+# arrayvec-0.4.11
 
-  crates.backtrace."0.3.32" = deps: { features?(features_.backtrace."0.3.32" deps {}) }: buildRustCrate {
-    crateName = "backtrace";
-    version = "0.3.32";
-    description = "A library to acquire a stack trace (backtrace) at runtime in a Rust program.\n";
-    authors = [ "The Rust Project Developers" ];
-    edition = "2018";
-    sha256 = "0f20pb4jm5lgv27mv3skbvlq7c2mysk7k4lvgwsgbjmdmclc14bd";
+  crates.arrayvec."0.4.11" = deps: { features?(features_.arrayvec."0.4.11" deps {}) }: buildRustCrate {
+    crateName = "arrayvec";
+    version = "0.4.11";
+    description = "A vector with fixed capacity, backed by an array (it can be stored on the stack too). Implements fixed capacity ArrayVec and ArrayString.";
+    authors = [ "bluss" ];
+    sha256 = "1bd08rakkyr9jlf538cs80s3ly464ni3afr63zlw860ndar1zfmv";
     dependencies = mapFeatures features ([
-      (crates."cfg_if"."${deps."backtrace"."0.3.32"."cfg_if"}" deps)
-      (crates."libc"."${deps."backtrace"."0.3.32"."libc"}" deps)
-      (crates."rustc_demangle"."${deps."backtrace"."0.3.32"."rustc_demangle"}" deps)
-    ]
-      ++ (if features.backtrace."0.3.32".backtrace-sys or false then [ (crates.backtrace_sys."${deps."backtrace"."0.3.32".backtrace_sys}" deps) ] else []))
-      ++ (if kernel == "windows" then mapFeatures features ([
-]) else []);
-    features = mkFeatures (features."backtrace"."0.3.32" or {});
+      (crates."nodrop"."${deps."arrayvec"."0.4.11"."nodrop"}" deps)
+    ]);
+    features = mkFeatures (features."arrayvec"."0.4.11" or {});
   };
-  features_.backtrace."0.3.32" = deps: f: updateFeatures f (rec {
-    backtrace = fold recursiveUpdate {} [
-      { "0.3.32"."addr2line" =
-        (f.backtrace."0.3.32"."addr2line" or false) ||
-        (f.backtrace."0.3.32".gimli-symbolize or false) ||
-        (backtrace."0.3.32"."gimli-symbolize" or false); }
-      { "0.3.32"."backtrace-sys" =
-        (f.backtrace."0.3.32"."backtrace-sys" or false) ||
-        (f.backtrace."0.3.32".libbacktrace or false) ||
-        (backtrace."0.3.32"."libbacktrace" or false); }
-      { "0.3.32"."compiler_builtins" =
-        (f.backtrace."0.3.32"."compiler_builtins" or false) ||
-        (f.backtrace."0.3.32".rustc-dep-of-std or false) ||
-        (backtrace."0.3.32"."rustc-dep-of-std" or false); }
-      { "0.3.32"."core" =
-        (f.backtrace."0.3.32"."core" or false) ||
-        (f.backtrace."0.3.32".rustc-dep-of-std or false) ||
-        (backtrace."0.3.32"."rustc-dep-of-std" or false); }
-      { "0.3.32"."dbghelp" =
-        (f.backtrace."0.3.32"."dbghelp" or false) ||
-        (f.backtrace."0.3.32".default or false) ||
-        (backtrace."0.3.32"."default" or false); }
-      { "0.3.32"."dladdr" =
-        (f.backtrace."0.3.32"."dladdr" or false) ||
-        (f.backtrace."0.3.32".default or false) ||
-        (backtrace."0.3.32"."default" or false); }
-      { "0.3.32"."findshlibs" =
-        (f.backtrace."0.3.32"."findshlibs" or false) ||
-        (f.backtrace."0.3.32".gimli-symbolize or false) ||
-        (backtrace."0.3.32"."gimli-symbolize" or false); }
-      { "0.3.32"."goblin" =
-        (f.backtrace."0.3.32"."goblin" or false) ||
-        (f.backtrace."0.3.32".gimli-symbolize or false) ||
-        (backtrace."0.3.32"."gimli-symbolize" or false); }
-      { "0.3.32"."libbacktrace" =
-        (f.backtrace."0.3.32"."libbacktrace" or false) ||
-        (f.backtrace."0.3.32".default or false) ||
-        (backtrace."0.3.32"."default" or false); }
-      { "0.3.32"."libunwind" =
-        (f.backtrace."0.3.32"."libunwind" or false) ||
-        (f.backtrace."0.3.32".default or false) ||
-        (backtrace."0.3.32"."default" or false); }
-      { "0.3.32"."memmap" =
-        (f.backtrace."0.3.32"."memmap" or false) ||
-        (f.backtrace."0.3.32".gimli-symbolize or false) ||
-        (backtrace."0.3.32"."gimli-symbolize" or false); }
-      { "0.3.32"."rustc-serialize" =
-        (f.backtrace."0.3.32"."rustc-serialize" or false) ||
-        (f.backtrace."0.3.32".serialize-rustc or false) ||
-        (backtrace."0.3.32"."serialize-rustc" or false); }
-      { "0.3.32"."serde" =
-        (f.backtrace."0.3.32"."serde" or false) ||
-        (f.backtrace."0.3.32".serialize-serde or false) ||
-        (backtrace."0.3.32"."serialize-serde" or false); }
-      { "0.3.32"."std" =
-        (f.backtrace."0.3.32"."std" or false) ||
-        (f.backtrace."0.3.32".default or false) ||
-        (backtrace."0.3.32"."default" or false); }
-      { "0.3.32".default = (f.backtrace."0.3.32".default or true); }
+  features_.arrayvec."0.4.11" = deps: f: updateFeatures f (rec {
+    arrayvec = fold recursiveUpdate {} [
+      { "0.4.11"."serde" =
+        (f.arrayvec."0.4.11"."serde" or false) ||
+        (f.arrayvec."0.4.11".serde-1 or false) ||
+        (arrayvec."0.4.11"."serde-1" or false); }
+      { "0.4.11"."std" =
+        (f.arrayvec."0.4.11"."std" or false) ||
+        (f.arrayvec."0.4.11".default or false) ||
+        (arrayvec."0.4.11"."default" or false); }
+      { "0.4.11".default = (f.arrayvec."0.4.11".default or true); }
     ];
-    backtrace_sys = fold recursiveUpdate {} [
-      { "${deps.backtrace."0.3.32".backtrace_sys}"."rustc-dep-of-std" =
-        (f.backtrace_sys."${deps.backtrace."0.3.32".backtrace_sys}"."rustc-dep-of-std" or false) ||
-        (backtrace."0.3.32"."rustc-dep-of-std" or false) ||
-        (f."backtrace"."0.3.32"."rustc-dep-of-std" or false); }
-      { "${deps.backtrace."0.3.32".backtrace_sys}".default = true; }
-    ];
-    cfg_if = fold recursiveUpdate {} [
-      { "${deps.backtrace."0.3.32".cfg_if}"."rustc-dep-of-std" =
-        (f.cfg_if."${deps.backtrace."0.3.32".cfg_if}"."rustc-dep-of-std" or false) ||
-        (backtrace."0.3.32"."rustc-dep-of-std" or false) ||
-        (f."backtrace"."0.3.32"."rustc-dep-of-std" or false); }
-      { "${deps.backtrace."0.3.32".cfg_if}".default = true; }
-    ];
-    libc = fold recursiveUpdate {} [
-      { "${deps.backtrace."0.3.32".libc}"."rustc-dep-of-std" =
-        (f.libc."${deps.backtrace."0.3.32".libc}"."rustc-dep-of-std" or false) ||
-        (backtrace."0.3.32"."rustc-dep-of-std" or false) ||
-        (f."backtrace"."0.3.32"."rustc-dep-of-std" or false); }
-      { "${deps.backtrace."0.3.32".libc}".default = (f.libc."${deps.backtrace."0.3.32".libc}".default or false); }
-    ];
-    rustc_demangle = fold recursiveUpdate {} [
-      { "${deps.backtrace."0.3.32".rustc_demangle}"."rustc-dep-of-std" =
-        (f.rustc_demangle."${deps.backtrace."0.3.32".rustc_demangle}"."rustc-dep-of-std" or false) ||
-        (backtrace."0.3.32"."rustc-dep-of-std" or false) ||
-        (f."backtrace"."0.3.32"."rustc-dep-of-std" or false); }
-      { "${deps.backtrace."0.3.32".rustc_demangle}".default = true; }
-    ];
+    nodrop."${deps.arrayvec."0.4.11".nodrop}".default = (f.nodrop."${deps.arrayvec."0.4.11".nodrop}".default or false);
   }) [
-    (features_.backtrace_sys."${deps."backtrace"."0.3.32"."backtrace_sys"}" deps)
-    (features_.cfg_if."${deps."backtrace"."0.3.32"."cfg_if"}" deps)
-    (features_.libc."${deps."backtrace"."0.3.32"."libc"}" deps)
-    (features_.rustc_demangle."${deps."backtrace"."0.3.32"."rustc_demangle"}" deps)
+    (features_.nodrop."${deps."arrayvec"."0.4.11"."nodrop"}" deps)
   ];
 
 
 # end
-# backtrace-sys-0.1.30
+# autocfg-0.1.5
 
-  crates.backtrace_sys."0.1.30" = deps: { features?(features_.backtrace_sys."0.1.30" deps {}) }: buildRustCrate {
+  crates.autocfg."0.1.5" = deps: { features?(features_.autocfg."0.1.5" deps {}) }: buildRustCrate {
+    crateName = "autocfg";
+    version = "0.1.5";
+    description = "Automatic cfg for Rust compiler features";
+    authors = [ "Josh Stone <cuviper@gmail.com>" ];
+    sha256 = "1f3bj604fyr4xh08r357hs3hpdzapiqgccvmj1jpi953ffqrp09a";
+  };
+  features_.autocfg."0.1.5" = deps: f: updateFeatures f (rec {
+    autocfg."0.1.5".default = (f.autocfg."0.1.5".default or true);
+  }) [];
+
+
+# end
+# backtrace-0.3.34
+
+  crates.backtrace."0.3.34" = deps: { features?(features_.backtrace."0.3.34" deps {}) }: buildRustCrate {
+    crateName = "backtrace";
+    version = "0.3.34";
+    description = "A library to acquire a stack trace (backtrace) at runtime in a Rust program.\n";
+    authors = [ "The Rust Project Developers" ];
+    edition = "2018";
+    sha256 = "13c0nc948br11rc4rdgvbr1i5yhh2wzzasicrswijli0fjsnwds3";
+    dependencies = mapFeatures features ([
+      (crates."cfg_if"."${deps."backtrace"."0.3.34"."cfg_if"}" deps)
+      (crates."libc"."${deps."backtrace"."0.3.34"."libc"}" deps)
+      (crates."rustc_demangle"."${deps."backtrace"."0.3.34"."rustc_demangle"}" deps)
+    ]
+      ++ (if features.backtrace."0.3.34".backtrace-sys or false then [ (crates.backtrace_sys."${deps."backtrace"."0.3.34".backtrace_sys}" deps) ] else []))
+      ++ (if !(kernel == "darwin" || kernel == "windows") then mapFeatures features ([
+]) else [])
+      ++ (if kernel == "darwin" then mapFeatures features ([
+]) else [])
+      ++ (if kernel == "windows" then mapFeatures features ([
+]) else []);
+    features = mkFeatures (features."backtrace"."0.3.34" or {});
+  };
+  features_.backtrace."0.3.34" = deps: f: updateFeatures f (rec {
+    backtrace = fold recursiveUpdate {} [
+      { "0.3.34"."addr2line" =
+        (f.backtrace."0.3.34"."addr2line" or false) ||
+        (f.backtrace."0.3.34".gimli-symbolize or false) ||
+        (backtrace."0.3.34"."gimli-symbolize" or false); }
+      { "0.3.34"."backtrace-sys" =
+        (f.backtrace."0.3.34"."backtrace-sys" or false) ||
+        (f.backtrace."0.3.34".libbacktrace or false) ||
+        (backtrace."0.3.34"."libbacktrace" or false); }
+      { "0.3.34"."compiler_builtins" =
+        (f.backtrace."0.3.34"."compiler_builtins" or false) ||
+        (f.backtrace."0.3.34".rustc-dep-of-std or false) ||
+        (backtrace."0.3.34"."rustc-dep-of-std" or false); }
+      { "0.3.34"."core" =
+        (f.backtrace."0.3.34"."core" or false) ||
+        (f.backtrace."0.3.34".rustc-dep-of-std or false) ||
+        (backtrace."0.3.34"."rustc-dep-of-std" or false); }
+      { "0.3.34"."dbghelp" =
+        (f.backtrace."0.3.34"."dbghelp" or false) ||
+        (f.backtrace."0.3.34".default or false) ||
+        (backtrace."0.3.34"."default" or false); }
+      { "0.3.34"."dladdr" =
+        (f.backtrace."0.3.34"."dladdr" or false) ||
+        (f.backtrace."0.3.34".default or false) ||
+        (backtrace."0.3.34"."default" or false); }
+      { "0.3.34"."findshlibs" =
+        (f.backtrace."0.3.34"."findshlibs" or false) ||
+        (f.backtrace."0.3.34".gimli-symbolize or false) ||
+        (backtrace."0.3.34"."gimli-symbolize" or false); }
+      { "0.3.34"."goblin" =
+        (f.backtrace."0.3.34"."goblin" or false) ||
+        (f.backtrace."0.3.34".gimli-symbolize or false) ||
+        (backtrace."0.3.34"."gimli-symbolize" or false); }
+      { "0.3.34"."libbacktrace" =
+        (f.backtrace."0.3.34"."libbacktrace" or false) ||
+        (f.backtrace."0.3.34".default or false) ||
+        (backtrace."0.3.34"."default" or false); }
+      { "0.3.34"."libunwind" =
+        (f.backtrace."0.3.34"."libunwind" or false) ||
+        (f.backtrace."0.3.34".default or false) ||
+        (backtrace."0.3.34"."default" or false); }
+      { "0.3.34"."memmap" =
+        (f.backtrace."0.3.34"."memmap" or false) ||
+        (f.backtrace."0.3.34".gimli-symbolize or false) ||
+        (backtrace."0.3.34"."gimli-symbolize" or false); }
+      { "0.3.34"."rustc-serialize" =
+        (f.backtrace."0.3.34"."rustc-serialize" or false) ||
+        (f.backtrace."0.3.34".serialize-rustc or false) ||
+        (backtrace."0.3.34"."serialize-rustc" or false); }
+      { "0.3.34"."serde" =
+        (f.backtrace."0.3.34"."serde" or false) ||
+        (f.backtrace."0.3.34".serialize-serde or false) ||
+        (backtrace."0.3.34"."serialize-serde" or false); }
+      { "0.3.34"."std" =
+        (f.backtrace."0.3.34"."std" or false) ||
+        (f.backtrace."0.3.34".default or false) ||
+        (backtrace."0.3.34"."default" or false); }
+      { "0.3.34".default = (f.backtrace."0.3.34".default or true); }
+    ];
+    backtrace_sys = fold recursiveUpdate {} [
+      { "${deps.backtrace."0.3.34".backtrace_sys}"."rustc-dep-of-std" =
+        (f.backtrace_sys."${deps.backtrace."0.3.34".backtrace_sys}"."rustc-dep-of-std" or false) ||
+        (backtrace."0.3.34"."rustc-dep-of-std" or false) ||
+        (f."backtrace"."0.3.34"."rustc-dep-of-std" or false); }
+      { "${deps.backtrace."0.3.34".backtrace_sys}".default = true; }
+    ];
+    cfg_if = fold recursiveUpdate {} [
+      { "${deps.backtrace."0.3.34".cfg_if}"."rustc-dep-of-std" =
+        (f.cfg_if."${deps.backtrace."0.3.34".cfg_if}"."rustc-dep-of-std" or false) ||
+        (backtrace."0.3.34"."rustc-dep-of-std" or false) ||
+        (f."backtrace"."0.3.34"."rustc-dep-of-std" or false); }
+      { "${deps.backtrace."0.3.34".cfg_if}".default = true; }
+    ];
+    libc = fold recursiveUpdate {} [
+      { "${deps.backtrace."0.3.34".libc}"."rustc-dep-of-std" =
+        (f.libc."${deps.backtrace."0.3.34".libc}"."rustc-dep-of-std" or false) ||
+        (backtrace."0.3.34"."rustc-dep-of-std" or false) ||
+        (f."backtrace"."0.3.34"."rustc-dep-of-std" or false); }
+      { "${deps.backtrace."0.3.34".libc}".default = (f.libc."${deps.backtrace."0.3.34".libc}".default or false); }
+    ];
+    rustc_demangle = fold recursiveUpdate {} [
+      { "${deps.backtrace."0.3.34".rustc_demangle}"."rustc-dep-of-std" =
+        (f.rustc_demangle."${deps.backtrace."0.3.34".rustc_demangle}"."rustc-dep-of-std" or false) ||
+        (backtrace."0.3.34"."rustc-dep-of-std" or false) ||
+        (f."backtrace"."0.3.34"."rustc-dep-of-std" or false); }
+      { "${deps.backtrace."0.3.34".rustc_demangle}".default = true; }
+    ];
+  }) [
+    (features_.backtrace_sys."${deps."backtrace"."0.3.34"."backtrace_sys"}" deps)
+    (features_.cfg_if."${deps."backtrace"."0.3.34"."cfg_if"}" deps)
+    (features_.libc."${deps."backtrace"."0.3.34"."libc"}" deps)
+    (features_.rustc_demangle."${deps."backtrace"."0.3.34"."rustc_demangle"}" deps)
+  ];
+
+
+# end
+# backtrace-sys-0.1.31
+
+  crates.backtrace_sys."0.1.31" = deps: { features?(features_.backtrace_sys."0.1.31" deps {}) }: buildRustCrate {
     crateName = "backtrace-sys";
-    version = "0.1.30";
+    version = "0.1.31";
     description = "Bindings to the libbacktrace gcc library\n";
     authors = [ "Alex Crichton <alex@alexcrichton.com>" ];
-    sha256 = "023k63xhlkm15hj2j75sqlsa28qc3f3szs1rdlnz09xzs04f42qn";
+    sha256 = "1gv41cypl4y5r32za4gx2fks43d76sp1r3yb5524i4gs50lrkypv";
     build = "build.rs";
     dependencies = mapFeatures features ([
-      (crates."libc"."${deps."backtrace_sys"."0.1.30"."libc"}" deps)
+      (crates."libc"."${deps."backtrace_sys"."0.1.31"."libc"}" deps)
     ]);
 
     buildDependencies = mapFeatures features ([
-      (crates."cc"."${deps."backtrace_sys"."0.1.30"."cc"}" deps)
+      (crates."cc"."${deps."backtrace_sys"."0.1.31"."cc"}" deps)
     ]);
-    features = mkFeatures (features."backtrace_sys"."0.1.30" or {});
+    features = mkFeatures (features."backtrace_sys"."0.1.31" or {});
   };
-  features_.backtrace_sys."0.1.30" = deps: f: updateFeatures f (rec {
+  features_.backtrace_sys."0.1.31" = deps: f: updateFeatures f (rec {
     backtrace_sys = fold recursiveUpdate {} [
-      { "0.1.30"."compiler_builtins" =
-        (f.backtrace_sys."0.1.30"."compiler_builtins" or false) ||
-        (f.backtrace_sys."0.1.30".rustc-dep-of-std or false) ||
-        (backtrace_sys."0.1.30"."rustc-dep-of-std" or false); }
-      { "0.1.30"."core" =
-        (f.backtrace_sys."0.1.30"."core" or false) ||
-        (f.backtrace_sys."0.1.30".rustc-dep-of-std or false) ||
-        (backtrace_sys."0.1.30"."rustc-dep-of-std" or false); }
-      { "0.1.30".default = (f.backtrace_sys."0.1.30".default or true); }
+      { "0.1.31"."compiler_builtins" =
+        (f.backtrace_sys."0.1.31"."compiler_builtins" or false) ||
+        (f.backtrace_sys."0.1.31".rustc-dep-of-std or false) ||
+        (backtrace_sys."0.1.31"."rustc-dep-of-std" or false); }
+      { "0.1.31"."core" =
+        (f.backtrace_sys."0.1.31"."core" or false) ||
+        (f.backtrace_sys."0.1.31".rustc-dep-of-std or false) ||
+        (backtrace_sys."0.1.31"."rustc-dep-of-std" or false); }
+      { "0.1.31".default = (f.backtrace_sys."0.1.31".default or true); }
     ];
-    cc."${deps.backtrace_sys."0.1.30".cc}".default = true;
-    libc."${deps.backtrace_sys."0.1.30".libc}".default = (f.libc."${deps.backtrace_sys."0.1.30".libc}".default or false);
+    cc."${deps.backtrace_sys."0.1.31".cc}".default = true;
+    libc."${deps.backtrace_sys."0.1.31".libc}".default = (f.libc."${deps.backtrace_sys."0.1.31".libc}".default or false);
   }) [
-    (features_.libc."${deps."backtrace_sys"."0.1.30"."libc"}" deps)
-    (features_.cc."${deps."backtrace_sys"."0.1.30"."cc"}" deps)
+    (features_.libc."${deps."backtrace_sys"."0.1.31"."libc"}" deps)
+    (features_.cc."${deps."backtrace_sys"."0.1.31"."cc"}" deps)
   ];
 
 
@@ -316,41 +319,37 @@ rec {
 
 
 # end
-# blake2-rfc-0.2.18
+# blake2b_simd-0.5.6
 
-  crates.blake2_rfc."0.2.18" = deps: { features?(features_.blake2_rfc."0.2.18" deps {}) }: buildRustCrate {
-    crateName = "blake2-rfc";
-    version = "0.2.18";
-    description = "A pure Rust implementation of BLAKE2 based on RFC 7693.";
-    authors = [ "Cesar Eduardo Barros <cesarb@cesarb.eti.br>" ];
-    sha256 = "0pyqrik4471ljk16prs0iwb2sam39z0z6axyyjxlqxdmf4wprf0l";
+  crates.blake2b_simd."0.5.6" = deps: { features?(features_.blake2b_simd."0.5.6" deps {}) }: buildRustCrate {
+    crateName = "blake2b_simd";
+    version = "0.5.6";
+    description = "a pure Rust BLAKE2b implementation with dynamic SIMD";
+    authors = [ "Jack O'Connor" ];
+    edition = "2018";
+    sha256 = "0w9vs76y1dkah220qp696r7h58sayvk4nik68wv5sq8sfzmm67pv";
     dependencies = mapFeatures features ([
-      (crates."arrayvec"."${deps."blake2_rfc"."0.2.18"."arrayvec"}" deps)
-      (crates."constant_time_eq"."${deps."blake2_rfc"."0.2.18"."constant_time_eq"}" deps)
+      (crates."arrayref"."${deps."blake2b_simd"."0.5.6"."arrayref"}" deps)
+      (crates."arrayvec"."${deps."blake2b_simd"."0.5.6"."arrayvec"}" deps)
+      (crates."constant_time_eq"."${deps."blake2b_simd"."0.5.6"."constant_time_eq"}" deps)
     ]);
-    features = mkFeatures (features."blake2_rfc"."0.2.18" or {});
+    features = mkFeatures (features."blake2b_simd"."0.5.6" or {});
   };
-  features_.blake2_rfc."0.2.18" = deps: f: updateFeatures f (rec {
-    arrayvec."${deps.blake2_rfc."0.2.18".arrayvec}".default = (f.arrayvec."${deps.blake2_rfc."0.2.18".arrayvec}".default or false);
-    blake2_rfc = fold recursiveUpdate {} [
-      { "0.2.18"."simd" =
-        (f.blake2_rfc."0.2.18"."simd" or false) ||
-        (f.blake2_rfc."0.2.18".simd_opt or false) ||
-        (blake2_rfc."0.2.18"."simd_opt" or false); }
-      { "0.2.18"."simd_opt" =
-        (f.blake2_rfc."0.2.18"."simd_opt" or false) ||
-        (f.blake2_rfc."0.2.18".simd_asm or false) ||
-        (blake2_rfc."0.2.18"."simd_asm" or false); }
-      { "0.2.18"."std" =
-        (f.blake2_rfc."0.2.18"."std" or false) ||
-        (f.blake2_rfc."0.2.18".default or false) ||
-        (blake2_rfc."0.2.18"."default" or false); }
-      { "0.2.18".default = (f.blake2_rfc."0.2.18".default or true); }
+  features_.blake2b_simd."0.5.6" = deps: f: updateFeatures f (rec {
+    arrayref."${deps.blake2b_simd."0.5.6".arrayref}".default = true;
+    arrayvec."${deps.blake2b_simd."0.5.6".arrayvec}".default = (f.arrayvec."${deps.blake2b_simd."0.5.6".arrayvec}".default or false);
+    blake2b_simd = fold recursiveUpdate {} [
+      { "0.5.6"."std" =
+        (f.blake2b_simd."0.5.6"."std" or false) ||
+        (f.blake2b_simd."0.5.6".default or false) ||
+        (blake2b_simd."0.5.6"."default" or false); }
+      { "0.5.6".default = (f.blake2b_simd."0.5.6".default or true); }
     ];
-    constant_time_eq."${deps.blake2_rfc."0.2.18".constant_time_eq}".default = true;
+    constant_time_eq."${deps.blake2b_simd."0.5.6".constant_time_eq}".default = true;
   }) [
-    (features_.arrayvec."${deps."blake2_rfc"."0.2.18"."arrayvec"}" deps)
-    (features_.constant_time_eq."${deps."blake2_rfc"."0.2.18"."constant_time_eq"}" deps)
+    (features_.arrayref."${deps."blake2b_simd"."0.5.6"."arrayref"}" deps)
+    (features_.arrayvec."${deps."blake2b_simd"."0.5.6"."arrayvec"}" deps)
+    (features_.constant_time_eq."${deps."blake2b_simd"."0.5.6"."constant_time_eq"}" deps)
   ];
 
 
@@ -444,25 +443,25 @@ rec {
 
 
 # end
-# cc-1.0.37
+# cc-1.0.40
 
-  crates.cc."1.0.37" = deps: { features?(features_.cc."1.0.37" deps {}) }: buildRustCrate {
+  crates.cc."1.0.40" = deps: { features?(features_.cc."1.0.40" deps {}) }: buildRustCrate {
     crateName = "cc";
-    version = "1.0.37";
+    version = "1.0.40";
     description = "A build-time dependency for Cargo build scripts to assist in invoking the native\nC compiler to compile native C code into a static archive to be linked into Rust\ncode.\n";
     authors = [ "Alex Crichton <alex@alexcrichton.com>" ];
-    sha256 = "1m5s357yi2amgd0kd8chxdcbnscyxwxifmf5hgv92x5xj56b3shj";
+    sha256 = "0qxbqlrj4l5r3jg5x19ykp13rl1xv65vb18yxps9pkraw3qfl2q6";
     dependencies = mapFeatures features ([
 ]);
-    features = mkFeatures (features."cc"."1.0.37" or {});
+    features = mkFeatures (features."cc"."1.0.40" or {});
   };
-  features_.cc."1.0.37" = deps: f: updateFeatures f (rec {
+  features_.cc."1.0.40" = deps: f: updateFeatures f (rec {
     cc = fold recursiveUpdate {} [
-      { "1.0.37"."rayon" =
-        (f.cc."1.0.37"."rayon" or false) ||
-        (f.cc."1.0.37".parallel or false) ||
-        (cc."1.0.37"."parallel" or false); }
-      { "1.0.37".default = (f.cc."1.0.37".default or true); }
+      { "1.0.40"."rayon" =
+        (f.cc."1.0.40"."rayon" or false) ||
+        (f.cc."1.0.40".parallel or false) ||
+        (cc."1.0.40"."parallel" or false); }
+      { "1.0.40".default = (f.cc."1.0.40".default or true); }
     ];
   }) [];
 
@@ -581,6 +580,21 @@ rec {
 
 
 # end
+# color_quant-1.0.1
+
+  crates.color_quant."1.0.1" = deps: { features?(features_.color_quant."1.0.1" deps {}) }: buildRustCrate {
+    crateName = "color_quant";
+    version = "1.0.1";
+    description = "Color quantization library to reduce n colors to 256 colors.";
+    authors = [ "nwin <nwin@users.noreply.github.com>" ];
+    sha256 = "12rqk6rbw4klnlr6q6njhsjllsg0nsvhm8g04sazhpkk4mw9mn8q";
+  };
+  features_.color_quant."1.0.1" = deps: f: updateFeatures f (rec {
+    color_quant."1.0.1".default = (f.color_quant."1.0.1".default or true);
+  }) [];
+
+
+# end
 # colored-1.8.0
 
   crates.colored."1.8.0" = deps: { features?(features_.colored."1.8.0" deps {}) }: buildRustCrate {
@@ -621,6 +635,153 @@ rec {
 
 
 # end
+# crossbeam-deque-0.6.3
+
+  crates.crossbeam_deque."0.6.3" = deps: { features?(features_.crossbeam_deque."0.6.3" deps {}) }: buildRustCrate {
+    crateName = "crossbeam-deque";
+    version = "0.6.3";
+    description = "Concurrent work-stealing deque";
+    authors = [ "The Crossbeam Project Developers" ];
+    sha256 = "07dahkh6rc09nzg7054rnmxhni263pi9arcyjyy822kg59c0lfz8";
+    dependencies = mapFeatures features ([
+      (crates."crossbeam_epoch"."${deps."crossbeam_deque"."0.6.3"."crossbeam_epoch"}" deps)
+      (crates."crossbeam_utils"."${deps."crossbeam_deque"."0.6.3"."crossbeam_utils"}" deps)
+    ]);
+  };
+  features_.crossbeam_deque."0.6.3" = deps: f: updateFeatures f (rec {
+    crossbeam_deque."0.6.3".default = (f.crossbeam_deque."0.6.3".default or true);
+    crossbeam_epoch."${deps.crossbeam_deque."0.6.3".crossbeam_epoch}".default = true;
+    crossbeam_utils."${deps.crossbeam_deque."0.6.3".crossbeam_utils}".default = true;
+  }) [
+    (features_.crossbeam_epoch."${deps."crossbeam_deque"."0.6.3"."crossbeam_epoch"}" deps)
+    (features_.crossbeam_utils."${deps."crossbeam_deque"."0.6.3"."crossbeam_utils"}" deps)
+  ];
+
+
+# end
+# crossbeam-epoch-0.7.2
+
+  crates.crossbeam_epoch."0.7.2" = deps: { features?(features_.crossbeam_epoch."0.7.2" deps {}) }: buildRustCrate {
+    crateName = "crossbeam-epoch";
+    version = "0.7.2";
+    description = "Epoch-based garbage collection";
+    authors = [ "The Crossbeam Project Developers" ];
+    sha256 = "015axh69r6ggj481ncqj09d7ssbqf8psgyqq9hhpkrh3j7xn4vmn";
+    dependencies = mapFeatures features ([
+      (crates."arrayvec"."${deps."crossbeam_epoch"."0.7.2"."arrayvec"}" deps)
+      (crates."cfg_if"."${deps."crossbeam_epoch"."0.7.2"."cfg_if"}" deps)
+      (crates."crossbeam_utils"."${deps."crossbeam_epoch"."0.7.2"."crossbeam_utils"}" deps)
+      (crates."memoffset"."${deps."crossbeam_epoch"."0.7.2"."memoffset"}" deps)
+      (crates."scopeguard"."${deps."crossbeam_epoch"."0.7.2"."scopeguard"}" deps)
+    ]
+      ++ (if features.crossbeam_epoch."0.7.2".lazy_static or false then [ (crates.lazy_static."${deps."crossbeam_epoch"."0.7.2".lazy_static}" deps) ] else []));
+    features = mkFeatures (features."crossbeam_epoch"."0.7.2" or {});
+  };
+  features_.crossbeam_epoch."0.7.2" = deps: f: updateFeatures f (rec {
+    arrayvec = fold recursiveUpdate {} [
+      { "${deps.crossbeam_epoch."0.7.2".arrayvec}"."use_union" =
+        (f.arrayvec."${deps.crossbeam_epoch."0.7.2".arrayvec}"."use_union" or false) ||
+        (crossbeam_epoch."0.7.2"."nightly" or false) ||
+        (f."crossbeam_epoch"."0.7.2"."nightly" or false); }
+      { "${deps.crossbeam_epoch."0.7.2".arrayvec}".default = (f.arrayvec."${deps.crossbeam_epoch."0.7.2".arrayvec}".default or false); }
+    ];
+    cfg_if."${deps.crossbeam_epoch."0.7.2".cfg_if}".default = true;
+    crossbeam_epoch = fold recursiveUpdate {} [
+      { "0.7.2"."lazy_static" =
+        (f.crossbeam_epoch."0.7.2"."lazy_static" or false) ||
+        (f.crossbeam_epoch."0.7.2".std or false) ||
+        (crossbeam_epoch."0.7.2"."std" or false); }
+      { "0.7.2"."std" =
+        (f.crossbeam_epoch."0.7.2"."std" or false) ||
+        (f.crossbeam_epoch."0.7.2".default or false) ||
+        (crossbeam_epoch."0.7.2"."default" or false); }
+      { "0.7.2".default = (f.crossbeam_epoch."0.7.2".default or true); }
+    ];
+    crossbeam_utils = fold recursiveUpdate {} [
+      { "${deps.crossbeam_epoch."0.7.2".crossbeam_utils}"."alloc" =
+        (f.crossbeam_utils."${deps.crossbeam_epoch."0.7.2".crossbeam_utils}"."alloc" or false) ||
+        (crossbeam_epoch."0.7.2"."alloc" or false) ||
+        (f."crossbeam_epoch"."0.7.2"."alloc" or false); }
+      { "${deps.crossbeam_epoch."0.7.2".crossbeam_utils}"."nightly" =
+        (f.crossbeam_utils."${deps.crossbeam_epoch."0.7.2".crossbeam_utils}"."nightly" or false) ||
+        (crossbeam_epoch."0.7.2"."nightly" or false) ||
+        (f."crossbeam_epoch"."0.7.2"."nightly" or false); }
+      { "${deps.crossbeam_epoch."0.7.2".crossbeam_utils}"."std" =
+        (f.crossbeam_utils."${deps.crossbeam_epoch."0.7.2".crossbeam_utils}"."std" or false) ||
+        (crossbeam_epoch."0.7.2"."std" or false) ||
+        (f."crossbeam_epoch"."0.7.2"."std" or false); }
+      { "${deps.crossbeam_epoch."0.7.2".crossbeam_utils}".default = (f.crossbeam_utils."${deps.crossbeam_epoch."0.7.2".crossbeam_utils}".default or false); }
+    ];
+    lazy_static."${deps.crossbeam_epoch."0.7.2".lazy_static}".default = true;
+    memoffset."${deps.crossbeam_epoch."0.7.2".memoffset}".default = true;
+    scopeguard."${deps.crossbeam_epoch."0.7.2".scopeguard}".default = (f.scopeguard."${deps.crossbeam_epoch."0.7.2".scopeguard}".default or false);
+  }) [
+    (features_.arrayvec."${deps."crossbeam_epoch"."0.7.2"."arrayvec"}" deps)
+    (features_.cfg_if."${deps."crossbeam_epoch"."0.7.2"."cfg_if"}" deps)
+    (features_.crossbeam_utils."${deps."crossbeam_epoch"."0.7.2"."crossbeam_utils"}" deps)
+    (features_.lazy_static."${deps."crossbeam_epoch"."0.7.2"."lazy_static"}" deps)
+    (features_.memoffset."${deps."crossbeam_epoch"."0.7.2"."memoffset"}" deps)
+    (features_.scopeguard."${deps."crossbeam_epoch"."0.7.2"."scopeguard"}" deps)
+  ];
+
+
+# end
+# crossbeam-queue-0.1.2
+
+  crates.crossbeam_queue."0.1.2" = deps: { features?(features_.crossbeam_queue."0.1.2" deps {}) }: buildRustCrate {
+    crateName = "crossbeam-queue";
+    version = "0.1.2";
+    description = "Concurrent queues";
+    authors = [ "The Crossbeam Project Developers" ];
+    sha256 = "1hannzr5w6j5061kg5iba4fzi6f2xpqv7bkcspfq17y1i8g0mzjj";
+    dependencies = mapFeatures features ([
+      (crates."crossbeam_utils"."${deps."crossbeam_queue"."0.1.2"."crossbeam_utils"}" deps)
+    ]);
+  };
+  features_.crossbeam_queue."0.1.2" = deps: f: updateFeatures f (rec {
+    crossbeam_queue."0.1.2".default = (f.crossbeam_queue."0.1.2".default or true);
+    crossbeam_utils."${deps.crossbeam_queue."0.1.2".crossbeam_utils}".default = true;
+  }) [
+    (features_.crossbeam_utils."${deps."crossbeam_queue"."0.1.2"."crossbeam_utils"}" deps)
+  ];
+
+
+# end
+# crossbeam-utils-0.6.6
+
+  crates.crossbeam_utils."0.6.6" = deps: { features?(features_.crossbeam_utils."0.6.6" deps {}) }: buildRustCrate {
+    crateName = "crossbeam-utils";
+    version = "0.6.6";
+    description = "Utilities for concurrent programming";
+    authors = [ "The Crossbeam Project Developers" ];
+    sha256 = "01gxccmrjkkcavdh8fc01kj3b5fmk10f0lkx66jmnv69kcssry72";
+    dependencies = mapFeatures features ([
+      (crates."cfg_if"."${deps."crossbeam_utils"."0.6.6"."cfg_if"}" deps)
+    ]
+      ++ (if features.crossbeam_utils."0.6.6".lazy_static or false then [ (crates.lazy_static."${deps."crossbeam_utils"."0.6.6".lazy_static}" deps) ] else []));
+    features = mkFeatures (features."crossbeam_utils"."0.6.6" or {});
+  };
+  features_.crossbeam_utils."0.6.6" = deps: f: updateFeatures f (rec {
+    cfg_if."${deps.crossbeam_utils."0.6.6".cfg_if}".default = true;
+    crossbeam_utils = fold recursiveUpdate {} [
+      { "0.6.6"."lazy_static" =
+        (f.crossbeam_utils."0.6.6"."lazy_static" or false) ||
+        (f.crossbeam_utils."0.6.6".std or false) ||
+        (crossbeam_utils."0.6.6"."std" or false); }
+      { "0.6.6"."std" =
+        (f.crossbeam_utils."0.6.6"."std" or false) ||
+        (f.crossbeam_utils."0.6.6".default or false) ||
+        (crossbeam_utils."0.6.6"."default" or false); }
+      { "0.6.6".default = (f.crossbeam_utils."0.6.6".default or true); }
+    ];
+    lazy_static."${deps.crossbeam_utils."0.6.6".lazy_static}".default = true;
+  }) [
+    (features_.cfg_if."${deps."crossbeam_utils"."0.6.6"."cfg_if"}" deps)
+    (features_.lazy_static."${deps."crossbeam_utils"."0.6.6"."lazy_static"}" deps)
+  ];
+
+
+# end
 # crypto-mac-0.7.0
 
   crates.crypto_mac."0.7.0" = deps: { features?(features_.crypto_mac."0.7.0" deps {}) }: buildRustCrate {
@@ -648,6 +809,37 @@ rec {
   }) [
     (features_.generic_array."${deps."crypto_mac"."0.7.0"."generic_array"}" deps)
     (features_.subtle."${deps."crypto_mac"."0.7.0"."subtle"}" deps)
+  ];
+
+
+# end
+# deflate-0.7.20
+
+  crates.deflate."0.7.20" = deps: { features?(features_.deflate."0.7.20" deps {}) }: buildRustCrate {
+    crateName = "deflate";
+    version = "0.7.20";
+    description = "A DEFLATE, zlib and gzip encoder written in rust.\n";
+    authors = [ "oyvindln <oyvindln@users.noreply.github.com>" ];
+    sha256 = "1b2c209lcmk023awvv5dl1hbfaqfhzi3bpl8xq8w39skjbgyckx8";
+    dependencies = mapFeatures features ([
+      (crates."adler32"."${deps."deflate"."0.7.20"."adler32"}" deps)
+      (crates."byteorder"."${deps."deflate"."0.7.20"."byteorder"}" deps)
+    ]);
+    features = mkFeatures (features."deflate"."0.7.20" or {});
+  };
+  features_.deflate."0.7.20" = deps: f: updateFeatures f (rec {
+    adler32."${deps.deflate."0.7.20".adler32}".default = true;
+    byteorder."${deps.deflate."0.7.20".byteorder}".default = true;
+    deflate = fold recursiveUpdate {} [
+      { "0.7.20"."gzip-header" =
+        (f.deflate."0.7.20"."gzip-header" or false) ||
+        (f.deflate."0.7.20".gzip or false) ||
+        (deflate."0.7.20"."gzip" or false); }
+      { "0.7.20".default = (f.deflate."0.7.20".default or true); }
+    ];
+  }) [
+    (features_.adler32."${deps."deflate"."0.7.20"."adler32"}" deps)
+    (features_.byteorder."${deps."deflate"."0.7.20"."byteorder"}" deps)
   ];
 
 
@@ -718,70 +910,94 @@ rec {
 
 
 # end
-# dirs-2.0.1
+# dirs-2.0.2
 
-  crates.dirs."2.0.1" = deps: { features?(features_.dirs."2.0.1" deps {}) }: buildRustCrate {
+  crates.dirs."2.0.2" = deps: { features?(features_.dirs."2.0.2" deps {}) }: buildRustCrate {
     crateName = "dirs";
-    version = "2.0.1";
+    version = "2.0.2";
     description = "A tiny low-level library that provides platform-specific standard locations of directories for config, cache and other data on Linux, Windows, macOS and Redox by leveraging the mechanisms defined by the XDG base/user directory specifications on Linux, the Known Folder API on Windows, and the Standard Directory guidelines on macOS.";
     authors = [ "Simon Ochsenreither <simon@ochsenreither.de>" ];
-    sha256 = "04yaclkpmbcpvq3qvhx1add4nhgabpxr3xg0y43nd447gccm3w6d";
+    sha256 = "0zk0kdnl2hd3qk76yq6yk7hc7s73gpnnzi1p208ygrh270y96fpx";
     dependencies = mapFeatures features ([
-      (crates."cfg_if"."${deps."dirs"."2.0.1"."cfg_if"}" deps)
-      (crates."dirs_sys"."${deps."dirs"."2.0.1"."dirs_sys"}" deps)
+      (crates."cfg_if"."${deps."dirs"."2.0.2"."cfg_if"}" deps)
+      (crates."dirs_sys"."${deps."dirs"."2.0.2"."dirs_sys"}" deps)
     ]);
   };
-  features_.dirs."2.0.1" = deps: f: updateFeatures f (rec {
-    cfg_if."${deps.dirs."2.0.1".cfg_if}".default = true;
-    dirs."2.0.1".default = (f.dirs."2.0.1".default or true);
-    dirs_sys."${deps.dirs."2.0.1".dirs_sys}".default = true;
+  features_.dirs."2.0.2" = deps: f: updateFeatures f (rec {
+    cfg_if."${deps.dirs."2.0.2".cfg_if}".default = true;
+    dirs."2.0.2".default = (f.dirs."2.0.2".default or true);
+    dirs_sys."${deps.dirs."2.0.2".dirs_sys}".default = true;
   }) [
-    (features_.cfg_if."${deps."dirs"."2.0.1"."cfg_if"}" deps)
-    (features_.dirs_sys."${deps."dirs"."2.0.1"."dirs_sys"}" deps)
+    (features_.cfg_if."${deps."dirs"."2.0.2"."cfg_if"}" deps)
+    (features_.dirs_sys."${deps."dirs"."2.0.2"."dirs_sys"}" deps)
   ];
 
 
 # end
-# dirs-sys-0.3.3
+# dirs-sys-0.3.4
 
-  crates.dirs_sys."0.3.3" = deps: { features?(features_.dirs_sys."0.3.3" deps {}) }: buildRustCrate {
+  crates.dirs_sys."0.3.4" = deps: { features?(features_.dirs_sys."0.3.4" deps {}) }: buildRustCrate {
     crateName = "dirs-sys";
-    version = "0.3.3";
+    version = "0.3.4";
     description = "System-level helper functions for the dirs and directories crates.";
     authors = [ "Simon Ochsenreither <simon@ochsenreither.de>" ];
-    sha256 = "1w5lkqrb16kda398wv4fgcf99disqqm6q7wvv0svb40m47bxfd6h";
+    sha256 = "1hb7h6g5xyhc26v8d8fksxfw1gv6kl427jzp9vhl7y8v6992d80d";
     dependencies = mapFeatures features ([
-      (crates."cfg_if"."${deps."dirs_sys"."0.3.3"."cfg_if"}" deps)
+      (crates."cfg_if"."${deps."dirs_sys"."0.3.4"."cfg_if"}" deps)
     ])
       ++ (if kernel == "redox" then mapFeatures features ([
-      (crates."redox_users"."${deps."dirs_sys"."0.3.3"."redox_users"}" deps)
+      (crates."redox_users"."${deps."dirs_sys"."0.3.4"."redox_users"}" deps)
     ]) else [])
       ++ (if (kernel == "linux" || kernel == "darwin") then mapFeatures features ([
-      (crates."libc"."${deps."dirs_sys"."0.3.3"."libc"}" deps)
+      (crates."libc"."${deps."dirs_sys"."0.3.4"."libc"}" deps)
     ]) else [])
       ++ (if kernel == "windows" then mapFeatures features ([
-      (crates."winapi"."${deps."dirs_sys"."0.3.3"."winapi"}" deps)
+      (crates."winapi"."${deps."dirs_sys"."0.3.4"."winapi"}" deps)
     ]) else []);
   };
-  features_.dirs_sys."0.3.3" = deps: f: updateFeatures f (rec {
-    cfg_if."${deps.dirs_sys."0.3.3".cfg_if}".default = true;
-    dirs_sys."0.3.3".default = (f.dirs_sys."0.3.3".default or true);
-    libc."${deps.dirs_sys."0.3.3".libc}".default = true;
-    redox_users."${deps.dirs_sys."0.3.3".redox_users}".default = true;
+  features_.dirs_sys."0.3.4" = deps: f: updateFeatures f (rec {
+    cfg_if."${deps.dirs_sys."0.3.4".cfg_if}".default = true;
+    dirs_sys."0.3.4".default = (f.dirs_sys."0.3.4".default or true);
+    libc."${deps.dirs_sys."0.3.4".libc}".default = true;
+    redox_users."${deps.dirs_sys."0.3.4".redox_users}".default = true;
     winapi = fold recursiveUpdate {} [
-      { "${deps.dirs_sys."0.3.3".winapi}"."knownfolders" = true; }
-      { "${deps.dirs_sys."0.3.3".winapi}"."objbase" = true; }
-      { "${deps.dirs_sys."0.3.3".winapi}"."shlobj" = true; }
-      { "${deps.dirs_sys."0.3.3".winapi}"."winbase" = true; }
-      { "${deps.dirs_sys."0.3.3".winapi}"."winerror" = true; }
-      { "${deps.dirs_sys."0.3.3".winapi}".default = true; }
+      { "${deps.dirs_sys."0.3.4".winapi}"."knownfolders" = true; }
+      { "${deps.dirs_sys."0.3.4".winapi}"."objbase" = true; }
+      { "${deps.dirs_sys."0.3.4".winapi}"."shlobj" = true; }
+      { "${deps.dirs_sys."0.3.4".winapi}"."winbase" = true; }
+      { "${deps.dirs_sys."0.3.4".winapi}"."winerror" = true; }
+      { "${deps.dirs_sys."0.3.4".winapi}".default = true; }
     ];
   }) [
-    (features_.cfg_if."${deps."dirs_sys"."0.3.3"."cfg_if"}" deps)
-    (features_.redox_users."${deps."dirs_sys"."0.3.3"."redox_users"}" deps)
-    (features_.libc."${deps."dirs_sys"."0.3.3"."libc"}" deps)
-    (features_.winapi."${deps."dirs_sys"."0.3.3"."winapi"}" deps)
+    (features_.cfg_if."${deps."dirs_sys"."0.3.4"."cfg_if"}" deps)
+    (features_.redox_users."${deps."dirs_sys"."0.3.4"."redox_users"}" deps)
+    (features_.libc."${deps."dirs_sys"."0.3.4"."libc"}" deps)
+    (features_.winapi."${deps."dirs_sys"."0.3.4"."winapi"}" deps)
   ];
+
+
+# end
+# either-1.5.2
+
+  crates.either."1.5.2" = deps: { features?(features_.either."1.5.2" deps {}) }: buildRustCrate {
+    crateName = "either";
+    version = "1.5.2";
+    description = "The enum `Either` with variants `Left` and `Right` is a general purpose sum type with two cases.\n";
+    authors = [ "bluss" ];
+    sha256 = "1zqq1057c51f53ga4p9l4dd8ax6md27h1xjrjp2plkvml5iymks5";
+    dependencies = mapFeatures features ([
+]);
+    features = mkFeatures (features."either"."1.5.2" or {});
+  };
+  features_.either."1.5.2" = deps: f: updateFeatures f (rec {
+    either = fold recursiveUpdate {} [
+      { "1.5.2"."use_std" =
+        (f.either."1.5.2"."use_std" or false) ||
+        (f.either."1.5.2".default or false) ||
+        (either."1.5.2"."default" or false); }
+      { "1.5.2".default = (f.either."1.5.2".default or true); }
+    ];
+  }) [];
 
 
 # end
@@ -942,6 +1158,41 @@ rec {
 
 
 # end
+# gif-0.10.2
+
+  crates.gif."0.10.2" = deps: { features?(features_.gif."0.10.2" deps {}) }: buildRustCrate {
+    crateName = "gif";
+    version = "0.10.2";
+    description = "GIF de- and encoder";
+    authors = [ "nwin <nwin@users.noreply.github.com>" ];
+    sha256 = "1wx1agcd0zcs6bs8cscfk34g2aylm55bwcr2bvb0mg0kjap3yqnc";
+    dependencies = mapFeatures features ([
+      (crates."color_quant"."${deps."gif"."0.10.2"."color_quant"}" deps)
+      (crates."lzw"."${deps."gif"."0.10.2"."lzw"}" deps)
+    ]);
+    features = mkFeatures (features."gif"."0.10.2" or {});
+  };
+  features_.gif."0.10.2" = deps: f: updateFeatures f (rec {
+    color_quant."${deps.gif."0.10.2".color_quant}".default = true;
+    gif = fold recursiveUpdate {} [
+      { "0.10.2"."libc" =
+        (f.gif."0.10.2"."libc" or false) ||
+        (f.gif."0.10.2".c_api or false) ||
+        (gif."0.10.2"."c_api" or false); }
+      { "0.10.2"."raii_no_panic" =
+        (f.gif."0.10.2"."raii_no_panic" or false) ||
+        (f.gif."0.10.2".default or false) ||
+        (gif."0.10.2"."default" or false); }
+      { "0.10.2".default = (f.gif."0.10.2".default or true); }
+    ];
+    lzw."${deps.gif."0.10.2".lzw}".default = true;
+  }) [
+    (features_.color_quant."${deps."gif"."0.10.2"."color_quant"}" deps)
+    (features_.lzw."${deps."gif"."0.10.2"."lzw"}" deps)
+  ];
+
+
+# end
 # hex-0.3.2
 
   crates.hex."0.3.2" = deps: { features?(features_.hex."0.3.2" deps {}) }: buildRustCrate {
@@ -958,26 +1209,205 @@ rec {
 
 
 # end
-# hmac-0.7.0
+# hmac-0.7.1
 
-  crates.hmac."0.7.0" = deps: { features?(features_.hmac."0.7.0" deps {}) }: buildRustCrate {
+  crates.hmac."0.7.1" = deps: { features?(features_.hmac."0.7.1" deps {}) }: buildRustCrate {
     crateName = "hmac";
-    version = "0.7.0";
+    version = "0.7.1";
     description = "Generic implementation of Hash-based Message Authentication Code (HMAC)";
     authors = [ "RustCrypto Developers" ];
-    sha256 = "0fijqj51n59fc7902kf057499mqkqh2n0hahq0p3f3i2d96qrm50";
+    sha256 = "16jlw514fchnc82rgjbd4x2z19kmqlkfm2h1bsxnv5cs36j58zdl";
     dependencies = mapFeatures features ([
-      (crates."crypto_mac"."${deps."hmac"."0.7.0"."crypto_mac"}" deps)
-      (crates."digest"."${deps."hmac"."0.7.0"."digest"}" deps)
+      (crates."crypto_mac"."${deps."hmac"."0.7.1"."crypto_mac"}" deps)
+      (crates."digest"."${deps."hmac"."0.7.1"."digest"}" deps)
     ]);
   };
-  features_.hmac."0.7.0" = deps: f: updateFeatures f (rec {
-    crypto_mac."${deps.hmac."0.7.0".crypto_mac}".default = true;
-    digest."${deps.hmac."0.7.0".digest}".default = true;
-    hmac."0.7.0".default = (f.hmac."0.7.0".default or true);
+  features_.hmac."0.7.1" = deps: f: updateFeatures f (rec {
+    crypto_mac."${deps.hmac."0.7.1".crypto_mac}".default = true;
+    digest."${deps.hmac."0.7.1".digest}".default = true;
+    hmac."0.7.1".default = (f.hmac."0.7.1".default or true);
   }) [
-    (features_.crypto_mac."${deps."hmac"."0.7.0"."crypto_mac"}" deps)
-    (features_.digest."${deps."hmac"."0.7.0"."digest"}" deps)
+    (features_.crypto_mac."${deps."hmac"."0.7.1"."crypto_mac"}" deps)
+    (features_.digest."${deps."hmac"."0.7.1"."digest"}" deps)
+  ];
+
+
+# end
+# image-0.21.2
+
+  crates.image."0.21.2" = deps: { features?(features_.image."0.21.2" deps {}) }: buildRustCrate {
+    crateName = "image";
+    version = "0.21.2";
+    description = "Imaging library written in Rust. Provides basic filters and decoders for the most common image formats.";
+    authors = [ "ccgn" "bvssvni <bvssvni@gmail.com>" "nwin" "TyOverby <ty@pre-alpha.com>" "HeroicKatora" "Calum" "CensoredUsername <cens.username@gmail.com>" "fintelia <fintelia@gmail.com>" ];
+    sha256 = "0r9w7b9xz267v8mw81xk0nl3s45zv99d8yda00f0appmsn7fn8d6";
+    libPath = "./src/lib.rs";
+    dependencies = mapFeatures features ([
+      (crates."byteorder"."${deps."image"."0.21.2"."byteorder"}" deps)
+      (crates."lzw"."${deps."image"."0.21.2"."lzw"}" deps)
+      (crates."num_iter"."${deps."image"."0.21.2"."num_iter"}" deps)
+      (crates."num_rational"."${deps."image"."0.21.2"."num_rational"}" deps)
+      (crates."num_traits"."${deps."image"."0.21.2"."num_traits"}" deps)
+    ]
+      ++ (if features.image."0.21.2".gif or false then [ (crates.gif."${deps."image"."0.21.2".gif}" deps) ] else [])
+      ++ (if features.image."0.21.2".jpeg-decoder or false then [ (crates.jpeg_decoder."${deps."image"."0.21.2".jpeg_decoder}" deps) ] else [])
+      ++ (if features.image."0.21.2".png or false then [ (crates.png."${deps."image"."0.21.2".png}" deps) ] else [])
+      ++ (if features.image."0.21.2".scoped_threadpool or false then [ (crates.scoped_threadpool."${deps."image"."0.21.2".scoped_threadpool}" deps) ] else [])
+      ++ (if features.image."0.21.2".tiff or false then [ (crates.tiff."${deps."image"."0.21.2".tiff}" deps) ] else []));
+    features = mkFeatures (features."image"."0.21.2" or {});
+  };
+  features_.image."0.21.2" = deps: f: updateFeatures f (rec {
+    byteorder."${deps.image."0.21.2".byteorder}".default = true;
+    gif."${deps.image."0.21.2".gif}".default = true;
+    image = fold recursiveUpdate {} [
+      { "0.21.2"."bmp" =
+        (f.image."0.21.2"."bmp" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false) ||
+        (f.image."0.21.2".ico or false) ||
+        (image."0.21.2"."ico" or false); }
+      { "0.21.2"."dxt" =
+        (f.image."0.21.2"."dxt" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2"."gif" =
+        (f.image."0.21.2"."gif" or false) ||
+        (f.image."0.21.2".gif_codec or false) ||
+        (image."0.21.2"."gif_codec" or false); }
+      { "0.21.2"."gif_codec" =
+        (f.image."0.21.2"."gif_codec" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2"."hdr" =
+        (f.image."0.21.2"."hdr" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2"."ico" =
+        (f.image."0.21.2"."ico" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2"."jpeg" =
+        (f.image."0.21.2"."jpeg" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2"."jpeg-decoder" =
+        (f.image."0.21.2"."jpeg-decoder" or false) ||
+        (f.image."0.21.2".jpeg or false) ||
+        (image."0.21.2"."jpeg" or false); }
+      { "0.21.2"."jpeg_rayon" =
+        (f.image."0.21.2"."jpeg_rayon" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2"."png" =
+        (f.image."0.21.2"."png" or false) ||
+        (f.image."0.21.2".png_codec or false) ||
+        (image."0.21.2"."png_codec" or false); }
+      { "0.21.2"."png_codec" =
+        (f.image."0.21.2"."png_codec" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false) ||
+        (f.image."0.21.2".ico or false) ||
+        (image."0.21.2"."ico" or false); }
+      { "0.21.2"."pnm" =
+        (f.image."0.21.2"."pnm" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2"."scoped_threadpool" =
+        (f.image."0.21.2"."scoped_threadpool" or false) ||
+        (f.image."0.21.2".hdr or false) ||
+        (image."0.21.2"."hdr" or false); }
+      { "0.21.2"."tga" =
+        (f.image."0.21.2"."tga" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2"."tiff" =
+        (f.image."0.21.2"."tiff" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2"."webp" =
+        (f.image."0.21.2"."webp" or false) ||
+        (f.image."0.21.2".default or false) ||
+        (image."0.21.2"."default" or false); }
+      { "0.21.2".default = (f.image."0.21.2".default or true); }
+    ];
+    jpeg_decoder = fold recursiveUpdate {} [
+      { "${deps.image."0.21.2".jpeg_decoder}"."rayon" =
+        (f.jpeg_decoder."${deps.image."0.21.2".jpeg_decoder}"."rayon" or false) ||
+        (image."0.21.2"."jpeg_rayon" or false) ||
+        (f."image"."0.21.2"."jpeg_rayon" or false); }
+      { "${deps.image."0.21.2".jpeg_decoder}".default = (f.jpeg_decoder."${deps.image."0.21.2".jpeg_decoder}".default or false); }
+    ];
+    lzw."${deps.image."0.21.2".lzw}".default = true;
+    num_iter."${deps.image."0.21.2".num_iter}".default = true;
+    num_rational."${deps.image."0.21.2".num_rational}".default = (f.num_rational."${deps.image."0.21.2".num_rational}".default or false);
+    num_traits."${deps.image."0.21.2".num_traits}".default = true;
+    png."${deps.image."0.21.2".png}".default = true;
+    scoped_threadpool."${deps.image."0.21.2".scoped_threadpool}".default = true;
+    tiff."${deps.image."0.21.2".tiff}".default = true;
+  }) [
+    (features_.byteorder."${deps."image"."0.21.2"."byteorder"}" deps)
+    (features_.gif."${deps."image"."0.21.2"."gif"}" deps)
+    (features_.jpeg_decoder."${deps."image"."0.21.2"."jpeg_decoder"}" deps)
+    (features_.lzw."${deps."image"."0.21.2"."lzw"}" deps)
+    (features_.num_iter."${deps."image"."0.21.2"."num_iter"}" deps)
+    (features_.num_rational."${deps."image"."0.21.2"."num_rational"}" deps)
+    (features_.num_traits."${deps."image"."0.21.2"."num_traits"}" deps)
+    (features_.png."${deps."image"."0.21.2"."png"}" deps)
+    (features_.scoped_threadpool."${deps."image"."0.21.2"."scoped_threadpool"}" deps)
+    (features_.tiff."${deps."image"."0.21.2"."tiff"}" deps)
+  ];
+
+
+# end
+# inflate-0.4.5
+
+  crates.inflate."0.4.5" = deps: { features?(features_.inflate."0.4.5" deps {}) }: buildRustCrate {
+    crateName = "inflate";
+    version = "0.4.5";
+    description = "DEFLATE decoding";
+    authors = [ "nwin <nwin@users.noreply.github.com>" ];
+    sha256 = "0dq5n218vdckp4q1m8b4vpg14bk3x98dvxcg51780ps0hpa2c9sm";
+    dependencies = mapFeatures features ([
+      (crates."adler32"."${deps."inflate"."0.4.5"."adler32"}" deps)
+    ]);
+    features = mkFeatures (features."inflate"."0.4.5" or {});
+  };
+  features_.inflate."0.4.5" = deps: f: updateFeatures f (rec {
+    adler32."${deps.inflate."0.4.5".adler32}".default = true;
+    inflate."0.4.5".default = (f.inflate."0.4.5".default or true);
+  }) [
+    (features_.adler32."${deps."inflate"."0.4.5"."adler32"}" deps)
+  ];
+
+
+# end
+# jpeg-decoder-0.1.15
+
+  crates.jpeg_decoder."0.1.15" = deps: { features?(features_.jpeg_decoder."0.1.15" deps {}) }: buildRustCrate {
+    crateName = "jpeg-decoder";
+    version = "0.1.15";
+    description = "JPEG decoder";
+    authors = [ "Ulf Nilsson <kaksmet@gmail.com>" ];
+    sha256 = "10hqj11lcq8q1p97470dgqwx0wjs81ib7kr1gqyk0nff320vj48c";
+    dependencies = mapFeatures features ([
+      (crates."byteorder"."${deps."jpeg_decoder"."0.1.15"."byteorder"}" deps)
+    ]
+      ++ (if features.jpeg_decoder."0.1.15".rayon or false then [ (crates.rayon."${deps."jpeg_decoder"."0.1.15".rayon}" deps) ] else []));
+    features = mkFeatures (features."jpeg_decoder"."0.1.15" or {});
+  };
+  features_.jpeg_decoder."0.1.15" = deps: f: updateFeatures f (rec {
+    byteorder."${deps.jpeg_decoder."0.1.15".byteorder}".default = true;
+    jpeg_decoder = fold recursiveUpdate {} [
+      { "0.1.15"."rayon" =
+        (f.jpeg_decoder."0.1.15"."rayon" or false) ||
+        (f.jpeg_decoder."0.1.15".default or false) ||
+        (jpeg_decoder."0.1.15"."default" or false); }
+      { "0.1.15".default = (f.jpeg_decoder."0.1.15".default or true); }
+    ];
+    rayon."${deps.jpeg_decoder."0.1.15".rayon}".default = true;
+  }) [
+    (features_.byteorder."${deps."jpeg_decoder"."0.1.15"."byteorder"}" deps)
+    (features_.rayon."${deps."jpeg_decoder"."0.1.15"."rayon"}" deps)
   ];
 
 
@@ -1021,36 +1451,36 @@ rec {
 
 
 # end
-# libc-0.2.58
+# libc-0.2.62
 
-  crates.libc."0.2.58" = deps: { features?(features_.libc."0.2.58" deps {}) }: buildRustCrate {
+  crates.libc."0.2.62" = deps: { features?(features_.libc."0.2.62" deps {}) }: buildRustCrate {
     crateName = "libc";
-    version = "0.2.58";
+    version = "0.2.62";
     description = "Raw FFI bindings to platform libraries like libc.\n";
     authors = [ "The Rust Project Developers" ];
-    sha256 = "06yk3c0qlcn925ap1rrhikpzgwf504ydkcadj41kib7a06f66k7c";
+    sha256 = "1vsb4pyn6gl6sri6cv5hin5wjfgk7lk2bshzmxb1xnkckjhz4gbx";
     build = "build.rs";
     dependencies = mapFeatures features ([
 ]);
-    features = mkFeatures (features."libc"."0.2.58" or {});
+    features = mkFeatures (features."libc"."0.2.62" or {});
   };
-  features_.libc."0.2.58" = deps: f: updateFeatures f (rec {
+  features_.libc."0.2.62" = deps: f: updateFeatures f (rec {
     libc = fold recursiveUpdate {} [
-      { "0.2.58"."align" =
-        (f.libc."0.2.58"."align" or false) ||
-        (f.libc."0.2.58".rustc-dep-of-std or false) ||
-        (libc."0.2.58"."rustc-dep-of-std" or false); }
-      { "0.2.58"."rustc-std-workspace-core" =
-        (f.libc."0.2.58"."rustc-std-workspace-core" or false) ||
-        (f.libc."0.2.58".rustc-dep-of-std or false) ||
-        (libc."0.2.58"."rustc-dep-of-std" or false); }
-      { "0.2.58"."std" =
-        (f.libc."0.2.58"."std" or false) ||
-        (f.libc."0.2.58".default or false) ||
-        (libc."0.2.58"."default" or false) ||
-        (f.libc."0.2.58".use_std or false) ||
-        (libc."0.2.58"."use_std" or false); }
-      { "0.2.58".default = (f.libc."0.2.58".default or true); }
+      { "0.2.62"."align" =
+        (f.libc."0.2.62"."align" or false) ||
+        (f.libc."0.2.62".rustc-dep-of-std or false) ||
+        (libc."0.2.62"."rustc-dep-of-std" or false); }
+      { "0.2.62"."rustc-std-workspace-core" =
+        (f.libc."0.2.62"."rustc-std-workspace-core" or false) ||
+        (f.libc."0.2.62".rustc-dep-of-std or false) ||
+        (libc."0.2.62"."rustc-dep-of-std" or false); }
+      { "0.2.62"."std" =
+        (f.libc."0.2.62"."std" or false) ||
+        (f.libc."0.2.62".default or false) ||
+        (libc."0.2.62"."default" or false) ||
+        (f.libc."0.2.62".use_std or false) ||
+        (libc."0.2.62"."use_std" or false); }
+      { "0.2.62".default = (f.libc."0.2.62".default or true); }
     ];
   }) [];
 
@@ -1089,49 +1519,100 @@ rec {
 
 
 # end
-# log-0.4.6
+# log-0.4.8
 
-  crates.log."0.4.6" = deps: { features?(features_.log."0.4.6" deps {}) }: buildRustCrate {
+  crates.log."0.4.8" = deps: { features?(features_.log."0.4.8" deps {}) }: buildRustCrate {
     crateName = "log";
-    version = "0.4.6";
+    version = "0.4.8";
     description = "A lightweight logging facade for Rust\n";
     authors = [ "The Rust Project Developers" ];
-    sha256 = "1nd8dl9mvc9vd6fks5d4gsxaz990xi6rzlb8ymllshmwi153vngr";
+    sha256 = "0wvzzzcn89dai172rrqcyz06pzldyyy0lf0w71csmn206rdpnb15";
+    build = "build.rs";
     dependencies = mapFeatures features ([
-      (crates."cfg_if"."${deps."log"."0.4.6"."cfg_if"}" deps)
+      (crates."cfg_if"."${deps."log"."0.4.8"."cfg_if"}" deps)
     ]);
-    features = mkFeatures (features."log"."0.4.6" or {});
+    features = mkFeatures (features."log"."0.4.8" or {});
   };
-  features_.log."0.4.6" = deps: f: updateFeatures f (rec {
-    cfg_if."${deps.log."0.4.6".cfg_if}".default = true;
-    log."0.4.6".default = (f.log."0.4.6".default or true);
+  features_.log."0.4.8" = deps: f: updateFeatures f (rec {
+    cfg_if."${deps.log."0.4.8".cfg_if}".default = true;
+    log = fold recursiveUpdate {} [
+      { "0.4.8"."kv_unstable" =
+        (f.log."0.4.8"."kv_unstable" or false) ||
+        (f.log."0.4.8".kv_unstable_sval or false) ||
+        (log."0.4.8"."kv_unstable_sval" or false); }
+      { "0.4.8".default = (f.log."0.4.8".default or true); }
+    ];
   }) [
-    (features_.cfg_if."${deps."log"."0.4.6"."cfg_if"}" deps)
+    (features_.cfg_if."${deps."log"."0.4.8"."cfg_if"}" deps)
   ];
 
 
 # end
-# memchr-2.2.0
+# lzw-0.10.0
 
-  crates.memchr."2.2.0" = deps: { features?(features_.memchr."2.2.0" deps {}) }: buildRustCrate {
-    crateName = "memchr";
-    version = "2.2.0";
-    description = "Safe interface to memchr.";
-    authors = [ "Andrew Gallant <jamslam@gmail.com>" "bluss" ];
-    sha256 = "11vwg8iig9jyjxq3n1cq15g29ikzw5l7ar87md54k1aisjs0997p";
-    dependencies = mapFeatures features ([
-]);
-    features = mkFeatures (features."memchr"."2.2.0" or {});
+  crates.lzw."0.10.0" = deps: { features?(features_.lzw."0.10.0" deps {}) }: buildRustCrate {
+    crateName = "lzw";
+    version = "0.10.0";
+    description = "LZW compression and decompression.";
+    authors = [ "nwin <nwin@users.noreply.github.com>" ];
+    sha256 = "1cfsy2w26kbz9bjaqp9dh1wyyh47rpmhwvj4jpc1rmffbf438fvb";
+    features = mkFeatures (features."lzw"."0.10.0" or {});
   };
-  features_.memchr."2.2.0" = deps: f: updateFeatures f (rec {
-    memchr = fold recursiveUpdate {} [
-      { "2.2.0"."use_std" =
-        (f.memchr."2.2.0"."use_std" or false) ||
-        (f.memchr."2.2.0".default or false) ||
-        (memchr."2.2.0"."default" or false); }
-      { "2.2.0".default = (f.memchr."2.2.0".default or true); }
+  features_.lzw."0.10.0" = deps: f: updateFeatures f (rec {
+    lzw = fold recursiveUpdate {} [
+      { "0.10.0"."raii_no_panic" =
+        (f.lzw."0.10.0"."raii_no_panic" or false) ||
+        (f.lzw."0.10.0".default or false) ||
+        (lzw."0.10.0"."default" or false); }
+      { "0.10.0".default = (f.lzw."0.10.0".default or true); }
     ];
   }) [];
+
+
+# end
+# memchr-2.2.1
+
+  crates.memchr."2.2.1" = deps: { features?(features_.memchr."2.2.1" deps {}) }: buildRustCrate {
+    crateName = "memchr";
+    version = "2.2.1";
+    description = "Safe interface to memchr.";
+    authors = [ "Andrew Gallant <jamslam@gmail.com>" "bluss" ];
+    sha256 = "1mj5z8lhz6jbapslpq8a39pwcsl1p0jmgp7wgcj7nv4pcqhya7a0";
+    dependencies = mapFeatures features ([
+]);
+    features = mkFeatures (features."memchr"."2.2.1" or {});
+  };
+  features_.memchr."2.2.1" = deps: f: updateFeatures f (rec {
+    memchr = fold recursiveUpdate {} [
+      { "2.2.1"."use_std" =
+        (f.memchr."2.2.1"."use_std" or false) ||
+        (f.memchr."2.2.1".default or false) ||
+        (memchr."2.2.1"."default" or false); }
+      { "2.2.1".default = (f.memchr."2.2.1".default or true); }
+    ];
+  }) [];
+
+
+# end
+# memoffset-0.5.1
+
+  crates.memoffset."0.5.1" = deps: { features?(features_.memoffset."0.5.1" deps {}) }: buildRustCrate {
+    crateName = "memoffset";
+    version = "0.5.1";
+    description = "offset_of functionality for Rust structs.";
+    authors = [ "Gilad Naaman <gilad.naaman@gmail.com>" ];
+    sha256 = "0fsk7kfk193f1aamafl45vvcp7j6p7c14ss7d583fijw3w5kj69k";
+
+    buildDependencies = mapFeatures features ([
+      (crates."rustc_version"."${deps."memoffset"."0.5.1"."rustc_version"}" deps)
+    ]);
+  };
+  features_.memoffset."0.5.1" = deps: f: updateFeatures f (rec {
+    memoffset."0.5.1".default = (f.memoffset."0.5.1".default or true);
+    rustc_version."${deps.memoffset."0.5.1".rustc_version}".default = true;
+  }) [
+    (features_.rustc_version."${deps."memoffset"."0.5.1"."rustc_version"}" deps)
+  ];
 
 
 # end
@@ -1224,6 +1705,43 @@ rec {
 
 
 # end
+# num-derive-0.2.5
+
+  crates.num_derive."0.2.5" = deps: { features?(features_.num_derive."0.2.5" deps {}) }: buildRustCrate {
+    crateName = "num-derive";
+    version = "0.2.5";
+    description = "Numeric syntax extensions";
+    authors = [ "The Rust Project Developers" ];
+    sha256 = "0i943i1d9hz152jvlkidkf0n9k5hsq7n53m0lnjq25h63ws0indi";
+    libName = "num_derive";
+    procMacro = true;
+    build = "build.rs";
+    dependencies = mapFeatures features ([
+      (crates."proc_macro2"."${deps."num_derive"."0.2.5"."proc_macro2"}" deps)
+      (crates."quote"."${deps."num_derive"."0.2.5"."quote"}" deps)
+      (crates."syn"."${deps."num_derive"."0.2.5"."syn"}" deps)
+    ]);
+    features = mkFeatures (features."num_derive"."0.2.5" or {});
+  };
+  features_.num_derive."0.2.5" = deps: f: updateFeatures f (rec {
+    num_derive."0.2.5".default = (f.num_derive."0.2.5".default or true);
+    proc_macro2."${deps.num_derive."0.2.5".proc_macro2}".default = true;
+    quote."${deps.num_derive."0.2.5".quote}".default = true;
+    syn = fold recursiveUpdate {} [
+      { "${deps.num_derive."0.2.5".syn}"."full" =
+        (f.syn."${deps.num_derive."0.2.5".syn}"."full" or false) ||
+        (num_derive."0.2.5"."full-syntax" or false) ||
+        (f."num_derive"."0.2.5"."full-syntax" or false); }
+      { "${deps.num_derive."0.2.5".syn}".default = true; }
+    ];
+  }) [
+    (features_.proc_macro2."${deps."num_derive"."0.2.5"."proc_macro2"}" deps)
+    (features_.quote."${deps."num_derive"."0.2.5"."quote"}" deps)
+    (features_.syn."${deps."num_derive"."0.2.5"."syn"}" deps)
+  ];
+
+
+# end
 # num-integer-0.1.41
 
   crates.num_integer."0.1.41" = deps: { features?(features_.num_integer."0.1.41" deps {}) }: buildRustCrate {
@@ -1265,6 +1783,134 @@ rec {
   }) [
     (features_.num_traits."${deps."num_integer"."0.1.41"."num_traits"}" deps)
     (features_.autocfg."${deps."num_integer"."0.1.41"."autocfg"}" deps)
+  ];
+
+
+# end
+# num-iter-0.1.39
+
+  crates.num_iter."0.1.39" = deps: { features?(features_.num_iter."0.1.39" deps {}) }: buildRustCrate {
+    crateName = "num-iter";
+    version = "0.1.39";
+    description = "External iterators for generic mathematics";
+    authors = [ "The Rust Project Developers" ];
+    sha256 = "003j2hysdrkia435vxn38s1qs8cllrgk04l4aapb8hd0wci109mj";
+    build = "build.rs";
+    dependencies = mapFeatures features ([
+      (crates."num_integer"."${deps."num_iter"."0.1.39"."num_integer"}" deps)
+      (crates."num_traits"."${deps."num_iter"."0.1.39"."num_traits"}" deps)
+    ]);
+
+    buildDependencies = mapFeatures features ([
+      (crates."autocfg"."${deps."num_iter"."0.1.39"."autocfg"}" deps)
+    ]);
+    features = mkFeatures (features."num_iter"."0.1.39" or {});
+  };
+  features_.num_iter."0.1.39" = deps: f: updateFeatures f (rec {
+    autocfg."${deps.num_iter."0.1.39".autocfg}".default = true;
+    num_integer = fold recursiveUpdate {} [
+      { "${deps.num_iter."0.1.39".num_integer}"."i128" =
+        (f.num_integer."${deps.num_iter."0.1.39".num_integer}"."i128" or false) ||
+        (num_iter."0.1.39"."i128" or false) ||
+        (f."num_iter"."0.1.39"."i128" or false); }
+      { "${deps.num_iter."0.1.39".num_integer}"."std" =
+        (f.num_integer."${deps.num_iter."0.1.39".num_integer}"."std" or false) ||
+        (num_iter."0.1.39"."std" or false) ||
+        (f."num_iter"."0.1.39"."std" or false); }
+      { "${deps.num_iter."0.1.39".num_integer}".default = (f.num_integer."${deps.num_iter."0.1.39".num_integer}".default or false); }
+    ];
+    num_iter = fold recursiveUpdate {} [
+      { "0.1.39"."std" =
+        (f.num_iter."0.1.39"."std" or false) ||
+        (f.num_iter."0.1.39".default or false) ||
+        (num_iter."0.1.39"."default" or false); }
+      { "0.1.39".default = (f.num_iter."0.1.39".default or true); }
+    ];
+    num_traits = fold recursiveUpdate {} [
+      { "${deps.num_iter."0.1.39".num_traits}"."i128" =
+        (f.num_traits."${deps.num_iter."0.1.39".num_traits}"."i128" or false) ||
+        (num_iter."0.1.39"."i128" or false) ||
+        (f."num_iter"."0.1.39"."i128" or false); }
+      { "${deps.num_iter."0.1.39".num_traits}"."std" =
+        (f.num_traits."${deps.num_iter."0.1.39".num_traits}"."std" or false) ||
+        (num_iter."0.1.39"."std" or false) ||
+        (f."num_iter"."0.1.39"."std" or false); }
+      { "${deps.num_iter."0.1.39".num_traits}".default = (f.num_traits."${deps.num_iter."0.1.39".num_traits}".default or false); }
+    ];
+  }) [
+    (features_.num_integer."${deps."num_iter"."0.1.39"."num_integer"}" deps)
+    (features_.num_traits."${deps."num_iter"."0.1.39"."num_traits"}" deps)
+    (features_.autocfg."${deps."num_iter"."0.1.39"."autocfg"}" deps)
+  ];
+
+
+# end
+# num-rational-0.2.2
+
+  crates.num_rational."0.2.2" = deps: { features?(features_.num_rational."0.2.2" deps {}) }: buildRustCrate {
+    crateName = "num-rational";
+    version = "0.2.2";
+    description = "Rational numbers implementation for Rust";
+    authors = [ "The Rust Project Developers" ];
+    sha256 = "0igg7jnhsxffy3qdvq30pv5h58a9a20h43s4qpxviyzi5zmzqsx2";
+    build = "build.rs";
+    dependencies = mapFeatures features ([
+      (crates."num_integer"."${deps."num_rational"."0.2.2"."num_integer"}" deps)
+      (crates."num_traits"."${deps."num_rational"."0.2.2"."num_traits"}" deps)
+    ]);
+
+    buildDependencies = mapFeatures features ([
+      (crates."autocfg"."${deps."num_rational"."0.2.2"."autocfg"}" deps)
+    ]);
+    features = mkFeatures (features."num_rational"."0.2.2" or {});
+  };
+  features_.num_rational."0.2.2" = deps: f: updateFeatures f (rec {
+    autocfg."${deps.num_rational."0.2.2".autocfg}".default = true;
+    num_integer = fold recursiveUpdate {} [
+      { "${deps.num_rational."0.2.2".num_integer}"."i128" =
+        (f.num_integer."${deps.num_rational."0.2.2".num_integer}"."i128" or false) ||
+        (num_rational."0.2.2"."i128" or false) ||
+        (f."num_rational"."0.2.2"."i128" or false); }
+      { "${deps.num_rational."0.2.2".num_integer}"."std" =
+        (f.num_integer."${deps.num_rational."0.2.2".num_integer}"."std" or false) ||
+        (num_rational."0.2.2"."std" or false) ||
+        (f."num_rational"."0.2.2"."std" or false); }
+      { "${deps.num_rational."0.2.2".num_integer}".default = (f.num_integer."${deps.num_rational."0.2.2".num_integer}".default or false); }
+    ];
+    num_rational = fold recursiveUpdate {} [
+      { "0.2.2"."bigint" =
+        (f.num_rational."0.2.2"."bigint" or false) ||
+        (f.num_rational."0.2.2".bigint-std or false) ||
+        (num_rational."0.2.2"."bigint-std" or false); }
+      { "0.2.2"."bigint-std" =
+        (f.num_rational."0.2.2"."bigint-std" or false) ||
+        (f.num_rational."0.2.2".default or false) ||
+        (num_rational."0.2.2"."default" or false); }
+      { "0.2.2"."num-bigint" =
+        (f.num_rational."0.2.2"."num-bigint" or false) ||
+        (f.num_rational."0.2.2".bigint or false) ||
+        (num_rational."0.2.2"."bigint" or false); }
+      { "0.2.2"."std" =
+        (f.num_rational."0.2.2"."std" or false) ||
+        (f.num_rational."0.2.2".default or false) ||
+        (num_rational."0.2.2"."default" or false); }
+      { "0.2.2".default = (f.num_rational."0.2.2".default or true); }
+    ];
+    num_traits = fold recursiveUpdate {} [
+      { "${deps.num_rational."0.2.2".num_traits}"."i128" =
+        (f.num_traits."${deps.num_rational."0.2.2".num_traits}"."i128" or false) ||
+        (num_rational."0.2.2"."i128" or false) ||
+        (f."num_rational"."0.2.2"."i128" or false); }
+      { "${deps.num_rational."0.2.2".num_traits}"."std" =
+        (f.num_traits."${deps.num_rational."0.2.2".num_traits}"."std" or false) ||
+        (num_rational."0.2.2"."std" or false) ||
+        (f."num_rational"."0.2.2"."std" or false); }
+      { "${deps.num_rational."0.2.2".num_traits}".default = (f.num_traits."${deps.num_rational."0.2.2".num_traits}".default or false); }
+    ];
+  }) [
+    (features_.num_integer."${deps."num_rational"."0.2.2"."num_integer"}" deps)
+    (features_.num_traits."${deps."num_rational"."0.2.2"."num_traits"}" deps)
+    (features_.autocfg."${deps."num_rational"."0.2.2"."autocfg"}" deps)
   ];
 
 
@@ -1322,33 +1968,95 @@ rec {
 
 
 # end
-# opaque-debug-0.2.2
+# num_cpus-1.10.1
 
-  crates.opaque_debug."0.2.2" = deps: { features?(features_.opaque_debug."0.2.2" deps {}) }: buildRustCrate {
+  crates.num_cpus."1.10.1" = deps: { features?(features_.num_cpus."1.10.1" deps {}) }: buildRustCrate {
+    crateName = "num_cpus";
+    version = "1.10.1";
+    description = "Get the number of CPUs on a machine.";
+    authors = [ "Sean McArthur <sean@seanmonstar.com>" ];
+    sha256 = "1zi5s2cbnqqb0k0kdd6gqn2x97f9bssv44430h6w28awwzppyh8i";
+    dependencies = mapFeatures features ([
+      (crates."libc"."${deps."num_cpus"."1.10.1"."libc"}" deps)
+    ]);
+  };
+  features_.num_cpus."1.10.1" = deps: f: updateFeatures f (rec {
+    libc."${deps.num_cpus."1.10.1".libc}".default = true;
+    num_cpus."1.10.1".default = (f.num_cpus."1.10.1".default or true);
+  }) [
+    (features_.libc."${deps."num_cpus"."1.10.1"."libc"}" deps)
+  ];
+
+
+# end
+# opaque-debug-0.2.3
+
+  crates.opaque_debug."0.2.3" = deps: { features?(features_.opaque_debug."0.2.3" deps {}) }: buildRustCrate {
     crateName = "opaque-debug";
-    version = "0.2.2";
+    version = "0.2.3";
     description = "Macro for opaque Debug trait implementation";
     authors = [ "RustCrypto Developers" ];
-    sha256 = "0dkzsnxpg50gz3gjcdzc4j6g4s0jphllg6q7jqmsy9nd9glidy74";
+    sha256 = "1did2dvmc88chf7qvs3c0qj5filfp6q75rmf2x9ljwlbwywv8lj5";
   };
-  features_.opaque_debug."0.2.2" = deps: f: updateFeatures f (rec {
-    opaque_debug."0.2.2".default = (f.opaque_debug."0.2.2".default or true);
+  features_.opaque_debug."0.2.3" = deps: f: updateFeatures f (rec {
+    opaque_debug."0.2.3".default = (f.opaque_debug."0.2.3".default or true);
   }) [];
 
 
 # end
-# pkg-config-0.3.14
+# pkg-config-0.3.15
 
-  crates.pkg_config."0.3.14" = deps: { features?(features_.pkg_config."0.3.14" deps {}) }: buildRustCrate {
+  crates.pkg_config."0.3.15" = deps: { features?(features_.pkg_config."0.3.15" deps {}) }: buildRustCrate {
     crateName = "pkg-config";
-    version = "0.3.14";
+    version = "0.3.15";
     description = "A library to run the pkg-config system tool at build time in order to be used in\nCargo build scripts.\n";
     authors = [ "Alex Crichton <alex@alexcrichton.com>" ];
-    sha256 = "0207fsarrm412j0dh87lfcas72n8mxar7q3mgflsbsrqnb140sv6";
+    sha256 = "02yh110i3bh5v7b2lb7sj4l335w2zdlliqqd5i5qf28f94w1rry5";
   };
-  features_.pkg_config."0.3.14" = deps: f: updateFeatures f (rec {
-    pkg_config."0.3.14".default = (f.pkg_config."0.3.14".default or true);
+  features_.pkg_config."0.3.15" = deps: f: updateFeatures f (rec {
+    pkg_config."0.3.15".default = (f.pkg_config."0.3.15".default or true);
   }) [];
+
+
+# end
+# png-0.14.1
+
+  crates.png."0.14.1" = deps: { features?(features_.png."0.14.1" deps {}) }: buildRustCrate {
+    crateName = "png";
+    version = "0.14.1";
+    description = "PNG decoding and encoding library in pure Rust";
+    authors = [ "nwin <nwin@users.noreply.github.com>" ];
+    sha256 = "1did5ip1mzqgcwb5v8cmx90awgrqvvfwhx1z0b6c09p2ni0jbg3p";
+    dependencies = mapFeatures features ([
+      (crates."bitflags"."${deps."png"."0.14.1"."bitflags"}" deps)
+      (crates."inflate"."${deps."png"."0.14.1"."inflate"}" deps)
+      (crates."num_iter"."${deps."png"."0.14.1"."num_iter"}" deps)
+    ]
+      ++ (if features.png."0.14.1".deflate or false then [ (crates.deflate."${deps."png"."0.14.1".deflate}" deps) ] else []));
+    features = mkFeatures (features."png"."0.14.1" or {});
+  };
+  features_.png."0.14.1" = deps: f: updateFeatures f (rec {
+    bitflags."${deps.png."0.14.1".bitflags}".default = true;
+    deflate."${deps.png."0.14.1".deflate}".default = true;
+    inflate."${deps.png."0.14.1".inflate}".default = true;
+    num_iter."${deps.png."0.14.1".num_iter}".default = true;
+    png = fold recursiveUpdate {} [
+      { "0.14.1"."deflate" =
+        (f.png."0.14.1"."deflate" or false) ||
+        (f.png."0.14.1".png-encoding or false) ||
+        (png."0.14.1"."png-encoding" or false); }
+      { "0.14.1"."png-encoding" =
+        (f.png."0.14.1"."png-encoding" or false) ||
+        (f.png."0.14.1".default or false) ||
+        (png."0.14.1"."default" or false); }
+      { "0.14.1".default = (f.png."0.14.1".default or true); }
+    ];
+  }) [
+    (features_.bitflags."${deps."png"."0.14.1"."bitflags"}" deps)
+    (features_.deflate."${deps."png"."0.14.1"."deflate"}" deps)
+    (features_.inflate."${deps."png"."0.14.1"."inflate"}" deps)
+    (features_.num_iter."${deps."png"."0.14.1"."num_iter"}" deps)
+  ];
 
 
 # end
@@ -1381,36 +2089,36 @@ rec {
 
 
 # end
-# quote-0.6.12
+# quote-0.6.13
 
-  crates.quote."0.6.12" = deps: { features?(features_.quote."0.6.12" deps {}) }: buildRustCrate {
+  crates.quote."0.6.13" = deps: { features?(features_.quote."0.6.13" deps {}) }: buildRustCrate {
     crateName = "quote";
-    version = "0.6.12";
+    version = "0.6.13";
     description = "Quasi-quoting macro quote!(...)";
     authors = [ "David Tolnay <dtolnay@gmail.com>" ];
-    sha256 = "1ckd2d2sy0hrwrqcr47dn0n3hyh7ygpc026l8xaycccyg27mihv9";
+    sha256 = "1hrvsin40i4q8swrhlj9057g7nsp0lg02h8zbzmgz14av9mzv8g8";
     dependencies = mapFeatures features ([
-      (crates."proc_macro2"."${deps."quote"."0.6.12"."proc_macro2"}" deps)
+      (crates."proc_macro2"."${deps."quote"."0.6.13"."proc_macro2"}" deps)
     ]);
-    features = mkFeatures (features."quote"."0.6.12" or {});
+    features = mkFeatures (features."quote"."0.6.13" or {});
   };
-  features_.quote."0.6.12" = deps: f: updateFeatures f (rec {
+  features_.quote."0.6.13" = deps: f: updateFeatures f (rec {
     proc_macro2 = fold recursiveUpdate {} [
-      { "${deps.quote."0.6.12".proc_macro2}"."proc-macro" =
-        (f.proc_macro2."${deps.quote."0.6.12".proc_macro2}"."proc-macro" or false) ||
-        (quote."0.6.12"."proc-macro" or false) ||
-        (f."quote"."0.6.12"."proc-macro" or false); }
-      { "${deps.quote."0.6.12".proc_macro2}".default = (f.proc_macro2."${deps.quote."0.6.12".proc_macro2}".default or false); }
+      { "${deps.quote."0.6.13".proc_macro2}"."proc-macro" =
+        (f.proc_macro2."${deps.quote."0.6.13".proc_macro2}"."proc-macro" or false) ||
+        (quote."0.6.13"."proc-macro" or false) ||
+        (f."quote"."0.6.13"."proc-macro" or false); }
+      { "${deps.quote."0.6.13".proc_macro2}".default = (f.proc_macro2."${deps.quote."0.6.13".proc_macro2}".default or false); }
     ];
     quote = fold recursiveUpdate {} [
-      { "0.6.12"."proc-macro" =
-        (f.quote."0.6.12"."proc-macro" or false) ||
-        (f.quote."0.6.12".default or false) ||
-        (quote."0.6.12"."default" or false); }
-      { "0.6.12".default = (f.quote."0.6.12".default or true); }
+      { "0.6.13"."proc-macro" =
+        (f.quote."0.6.13"."proc-macro" or false) ||
+        (f.quote."0.6.13".default or false) ||
+        (quote."0.6.13"."default" or false); }
+      { "0.6.13".default = (f.quote."0.6.13".default or true); }
     ];
   }) [
-    (features_.proc_macro2."${deps."quote"."0.6.12"."proc_macro2"}" deps)
+    (features_.proc_macro2."${deps."quote"."0.6.13"."proc_macro2"}" deps)
   ];
 
 
@@ -1673,33 +2381,33 @@ rec {
 
 
 # end
-# rand_core-0.4.0
+# rand_core-0.4.2
 
-  crates.rand_core."0.4.0" = deps: { features?(features_.rand_core."0.4.0" deps {}) }: buildRustCrate {
+  crates.rand_core."0.4.2" = deps: { features?(features_.rand_core."0.4.2" deps {}) }: buildRustCrate {
     crateName = "rand_core";
-    version = "0.4.0";
+    version = "0.4.2";
     description = "Core random number generator traits and tools for implementation.\n";
     authors = [ "The Rand Project Developers" "The Rust Project Developers" ];
-    sha256 = "0wb5iwhffibj0pnpznhv1g3i7h1fnhz64s3nz74fz6vsm3q6q3br";
+    sha256 = "18zpzwn4bl7lp9f36iacy8mvdnfrhfmzsl35gmln98dcindff2ly";
     dependencies = mapFeatures features ([
 ]);
-    features = mkFeatures (features."rand_core"."0.4.0" or {});
+    features = mkFeatures (features."rand_core"."0.4.2" or {});
   };
-  features_.rand_core."0.4.0" = deps: f: updateFeatures f (rec {
+  features_.rand_core."0.4.2" = deps: f: updateFeatures f (rec {
     rand_core = fold recursiveUpdate {} [
-      { "0.4.0"."alloc" =
-        (f.rand_core."0.4.0"."alloc" or false) ||
-        (f.rand_core."0.4.0".std or false) ||
-        (rand_core."0.4.0"."std" or false); }
-      { "0.4.0"."serde" =
-        (f.rand_core."0.4.0"."serde" or false) ||
-        (f.rand_core."0.4.0".serde1 or false) ||
-        (rand_core."0.4.0"."serde1" or false); }
-      { "0.4.0"."serde_derive" =
-        (f.rand_core."0.4.0"."serde_derive" or false) ||
-        (f.rand_core."0.4.0".serde1 or false) ||
-        (rand_core."0.4.0"."serde1" or false); }
-      { "0.4.0".default = (f.rand_core."0.4.0".default or true); }
+      { "0.4.2"."alloc" =
+        (f.rand_core."0.4.2"."alloc" or false) ||
+        (f.rand_core."0.4.2".std or false) ||
+        (rand_core."0.4.2"."std" or false); }
+      { "0.4.2"."serde" =
+        (f.rand_core."0.4.2"."serde" or false) ||
+        (f.rand_core."0.4.2".serde1 or false) ||
+        (rand_core."0.4.2"."serde1" or false); }
+      { "0.4.2"."serde_derive" =
+        (f.rand_core."0.4.2"."serde_derive" or false) ||
+        (f.rand_core."0.4.2".serde1 or false) ||
+        (rand_core."0.4.2"."serde1" or false); }
+      { "0.4.2".default = (f.rand_core."0.4.2".default or true); }
     ];
   }) [];
 
@@ -1932,6 +2640,69 @@ rec {
 
 
 # end
+# rayon-1.1.0
+
+  crates.rayon."1.1.0" = deps: { features?(features_.rayon."1.1.0" deps {}) }: buildRustCrate {
+    crateName = "rayon";
+    version = "1.1.0";
+    description = "Simple work-stealing parallelism for Rust";
+    authors = [ "Niko Matsakis <niko@alum.mit.edu>" "Josh Stone <cuviper@gmail.com>" ];
+    sha256 = "07984mgfdkv8zfg8b9wvjssfhm8wz1x9ls2lc9dfmbjv7kmfag4l";
+    dependencies = mapFeatures features ([
+      (crates."crossbeam_deque"."${deps."rayon"."1.1.0"."crossbeam_deque"}" deps)
+      (crates."either"."${deps."rayon"."1.1.0"."either"}" deps)
+      (crates."rayon_core"."${deps."rayon"."1.1.0"."rayon_core"}" deps)
+    ]);
+  };
+  features_.rayon."1.1.0" = deps: f: updateFeatures f (rec {
+    crossbeam_deque."${deps.rayon."1.1.0".crossbeam_deque}".default = true;
+    either."${deps.rayon."1.1.0".either}".default = (f.either."${deps.rayon."1.1.0".either}".default or false);
+    rayon."1.1.0".default = (f.rayon."1.1.0".default or true);
+    rayon_core."${deps.rayon."1.1.0".rayon_core}".default = true;
+  }) [
+    (features_.crossbeam_deque."${deps."rayon"."1.1.0"."crossbeam_deque"}" deps)
+    (features_.either."${deps."rayon"."1.1.0"."either"}" deps)
+    (features_.rayon_core."${deps."rayon"."1.1.0"."rayon_core"}" deps)
+  ];
+
+
+# end
+# rayon-core-1.5.0
+
+  crates.rayon_core."1.5.0" = deps: { features?(features_.rayon_core."1.5.0" deps {}) }: buildRustCrate {
+    crateName = "rayon-core";
+    version = "1.5.0";
+    description = "Core APIs for Rayon";
+    authors = [ "Niko Matsakis <niko@alum.mit.edu>" "Josh Stone <cuviper@gmail.com>" ];
+    sha256 = "1aarjhj57dppxz3b2rvwdxvq47464sm84423vpwjm9yll8pc2ac7";
+    build = "build.rs";
+    dependencies = mapFeatures features ([
+      (crates."crossbeam_deque"."${deps."rayon_core"."1.5.0"."crossbeam_deque"}" deps)
+      (crates."crossbeam_queue"."${deps."rayon_core"."1.5.0"."crossbeam_queue"}" deps)
+      (crates."crossbeam_utils"."${deps."rayon_core"."1.5.0"."crossbeam_utils"}" deps)
+      (crates."lazy_static"."${deps."rayon_core"."1.5.0"."lazy_static"}" deps)
+      (crates."num_cpus"."${deps."rayon_core"."1.5.0"."num_cpus"}" deps)
+    ])
+      ++ (if (kernel == "linux" || kernel == "darwin") then mapFeatures features ([
+]) else []);
+  };
+  features_.rayon_core."1.5.0" = deps: f: updateFeatures f (rec {
+    crossbeam_deque."${deps.rayon_core."1.5.0".crossbeam_deque}".default = true;
+    crossbeam_queue."${deps.rayon_core."1.5.0".crossbeam_queue}".default = true;
+    crossbeam_utils."${deps.rayon_core."1.5.0".crossbeam_utils}".default = true;
+    lazy_static."${deps.rayon_core."1.5.0".lazy_static}".default = true;
+    num_cpus."${deps.rayon_core."1.5.0".num_cpus}".default = true;
+    rayon_core."1.5.0".default = (f.rayon_core."1.5.0".default or true);
+  }) [
+    (features_.crossbeam_deque."${deps."rayon_core"."1.5.0"."crossbeam_deque"}" deps)
+    (features_.crossbeam_queue."${deps."rayon_core"."1.5.0"."crossbeam_queue"}" deps)
+    (features_.crossbeam_utils."${deps."rayon_core"."1.5.0"."crossbeam_utils"}" deps)
+    (features_.lazy_static."${deps."rayon_core"."1.5.0"."lazy_static"}" deps)
+    (features_.num_cpus."${deps."rayon_core"."1.5.0"."num_cpus"}" deps)
+  ];
+
+
+# end
 # rdrand-0.4.0
 
   crates.rdrand."0.4.0" = deps: { features?(features_.rdrand."0.4.0" deps {}) }: buildRustCrate {
@@ -1976,32 +2747,32 @@ rec {
 
 
 # end
-# redox_users-0.3.0
+# redox_users-0.3.1
 
-  crates.redox_users."0.3.0" = deps: { features?(features_.redox_users."0.3.0" deps {}) }: buildRustCrate {
+  crates.redox_users."0.3.1" = deps: { features?(features_.redox_users."0.3.1" deps {}) }: buildRustCrate {
     crateName = "redox_users";
-    version = "0.3.0";
+    version = "0.3.1";
     description = "A Rust library to access Redox users and groups functionality";
     authors = [ "Jose Narvaez <goyox86@gmail.com>" "Wesley Hershberger <mggmugginsmc@gmail.com>" ];
-    sha256 = "051rzqgk5hn7rf24nwgbb32zfdn8qp2kwqvdp0772ia85p737p4j";
+    sha256 = "0kqc1vjmkcvgkxjpqva3nyqd9dixivsh4qswxclyqf7ql8a2g17s";
     dependencies = mapFeatures features ([
-      (crates."argon2rs"."${deps."redox_users"."0.3.0"."argon2rs"}" deps)
-      (crates."failure"."${deps."redox_users"."0.3.0"."failure"}" deps)
-      (crates."rand_os"."${deps."redox_users"."0.3.0"."rand_os"}" deps)
-      (crates."redox_syscall"."${deps."redox_users"."0.3.0"."redox_syscall"}" deps)
+      (crates."failure"."${deps."redox_users"."0.3.1"."failure"}" deps)
+      (crates."rand_os"."${deps."redox_users"."0.3.1"."rand_os"}" deps)
+      (crates."redox_syscall"."${deps."redox_users"."0.3.1"."redox_syscall"}" deps)
+      (crates."rust_argon2"."${deps."redox_users"."0.3.1"."rust_argon2"}" deps)
     ]);
   };
-  features_.redox_users."0.3.0" = deps: f: updateFeatures f (rec {
-    argon2rs."${deps.redox_users."0.3.0".argon2rs}".default = (f.argon2rs."${deps.redox_users."0.3.0".argon2rs}".default or false);
-    failure."${deps.redox_users."0.3.0".failure}".default = true;
-    rand_os."${deps.redox_users."0.3.0".rand_os}".default = true;
-    redox_syscall."${deps.redox_users."0.3.0".redox_syscall}".default = true;
-    redox_users."0.3.0".default = (f.redox_users."0.3.0".default or true);
+  features_.redox_users."0.3.1" = deps: f: updateFeatures f (rec {
+    failure."${deps.redox_users."0.3.1".failure}".default = true;
+    rand_os."${deps.redox_users."0.3.1".rand_os}".default = true;
+    redox_syscall."${deps.redox_users."0.3.1".redox_syscall}".default = true;
+    redox_users."0.3.1".default = (f.redox_users."0.3.1".default or true);
+    rust_argon2."${deps.redox_users."0.3.1".rust_argon2}".default = true;
   }) [
-    (features_.argon2rs."${deps."redox_users"."0.3.0"."argon2rs"}" deps)
-    (features_.failure."${deps."redox_users"."0.3.0"."failure"}" deps)
-    (features_.rand_os."${deps."redox_users"."0.3.0"."rand_os"}" deps)
-    (features_.redox_syscall."${deps."redox_users"."0.3.0"."redox_syscall"}" deps)
+    (features_.failure."${deps."redox_users"."0.3.1"."failure"}" deps)
+    (features_.rand_os."${deps."redox_users"."0.3.1"."rand_os"}" deps)
+    (features_.redox_syscall."${deps."redox_users"."0.3.1"."redox_syscall"}" deps)
+    (features_.rust_argon2."${deps."redox_users"."0.3.1"."rust_argon2"}" deps)
   ];
 
 
@@ -2050,24 +2821,18 @@ rec {
 
 
 # end
-# regex-syntax-0.6.7
+# regex-syntax-0.6.11
 
-  crates.regex_syntax."0.6.7" = deps: { features?(features_.regex_syntax."0.6.7" deps {}) }: buildRustCrate {
+  crates.regex_syntax."0.6.11" = deps: { features?(features_.regex_syntax."0.6.11" deps {}) }: buildRustCrate {
     crateName = "regex-syntax";
-    version = "0.6.7";
+    version = "0.6.11";
     description = "A regular expression parser.";
     authors = [ "The Rust Project Developers" ];
-    sha256 = "1vv0d9p9djkz0kfg1ajd1p3j3dsiq78nnqsvl3ivygasj3llqb9x";
-    dependencies = mapFeatures features ([
-      (crates."ucd_util"."${deps."regex_syntax"."0.6.7"."ucd_util"}" deps)
-    ]);
+    sha256 = "1ynlyhjlcvhhqiaz6n649h4jmr45c1x6nwxzkfjdv7gazv94fdbh";
   };
-  features_.regex_syntax."0.6.7" = deps: f: updateFeatures f (rec {
-    regex_syntax."0.6.7".default = (f.regex_syntax."0.6.7".default or true);
-    ucd_util."${deps.regex_syntax."0.6.7".ucd_util}".default = true;
-  }) [
-    (features_.ucd_util."${deps."regex_syntax"."0.6.7"."ucd_util"}" deps)
-  ];
+  features_.regex_syntax."0.6.11" = deps: f: updateFeatures f (rec {
+    regex_syntax."0.6.11".default = (f.regex_syntax."0.6.11".default or true);
+  }) [];
 
 
 # end
@@ -2116,31 +2881,80 @@ rec {
 
 
 # end
-# rustc-demangle-0.1.15
+# rust-argon2-0.5.1
 
-  crates.rustc_demangle."0.1.15" = deps: { features?(features_.rustc_demangle."0.1.15" deps {}) }: buildRustCrate {
+  crates.rust_argon2."0.5.1" = deps: { features?(features_.rust_argon2."0.5.1" deps {}) }: buildRustCrate {
+    crateName = "rust-argon2";
+    version = "0.5.1";
+    description = "Rust implementation of the Argon2 password hashing function.";
+    authors = [ "Martijn Rijkeboer <mrr@sru-systems.com>" ];
+    sha256 = "049dqwn63i6xix55cnh8n4iqm2d3yzpisfsc2568vfmaaa4866d2";
+    libName = "argon2";
+    dependencies = mapFeatures features ([
+      (crates."base64"."${deps."rust_argon2"."0.5.1"."base64"}" deps)
+      (crates."blake2b_simd"."${deps."rust_argon2"."0.5.1"."blake2b_simd"}" deps)
+      (crates."crossbeam_utils"."${deps."rust_argon2"."0.5.1"."crossbeam_utils"}" deps)
+    ]);
+  };
+  features_.rust_argon2."0.5.1" = deps: f: updateFeatures f (rec {
+    base64."${deps.rust_argon2."0.5.1".base64}".default = true;
+    blake2b_simd."${deps.rust_argon2."0.5.1".blake2b_simd}".default = true;
+    crossbeam_utils."${deps.rust_argon2."0.5.1".crossbeam_utils}".default = true;
+    rust_argon2."0.5.1".default = (f.rust_argon2."0.5.1".default or true);
+  }) [
+    (features_.base64."${deps."rust_argon2"."0.5.1"."base64"}" deps)
+    (features_.blake2b_simd."${deps."rust_argon2"."0.5.1"."blake2b_simd"}" deps)
+    (features_.crossbeam_utils."${deps."rust_argon2"."0.5.1"."crossbeam_utils"}" deps)
+  ];
+
+
+# end
+# rustc-demangle-0.1.16
+
+  crates.rustc_demangle."0.1.16" = deps: { features?(features_.rustc_demangle."0.1.16" deps {}) }: buildRustCrate {
     crateName = "rustc-demangle";
-    version = "0.1.15";
+    version = "0.1.16";
     description = "Rust compiler symbol demangling.\n";
     authors = [ "Alex Crichton <alex@alexcrichton.com>" ];
-    sha256 = "04rgsfzhz4k9s56vkczsdbvmvg9409xp0nw4cy99lb2i0aa0255s";
+    sha256 = "0zmn448d0f898ahfkz7cir0fi0vk84dabjpw84mk6a1r6nf9vzmi";
     dependencies = mapFeatures features ([
 ]);
-    features = mkFeatures (features."rustc_demangle"."0.1.15" or {});
+    features = mkFeatures (features."rustc_demangle"."0.1.16" or {});
   };
-  features_.rustc_demangle."0.1.15" = deps: f: updateFeatures f (rec {
+  features_.rustc_demangle."0.1.16" = deps: f: updateFeatures f (rec {
     rustc_demangle = fold recursiveUpdate {} [
-      { "0.1.15"."compiler_builtins" =
-        (f.rustc_demangle."0.1.15"."compiler_builtins" or false) ||
-        (f.rustc_demangle."0.1.15".rustc-dep-of-std or false) ||
-        (rustc_demangle."0.1.15"."rustc-dep-of-std" or false); }
-      { "0.1.15"."core" =
-        (f.rustc_demangle."0.1.15"."core" or false) ||
-        (f.rustc_demangle."0.1.15".rustc-dep-of-std or false) ||
-        (rustc_demangle."0.1.15"."rustc-dep-of-std" or false); }
-      { "0.1.15".default = (f.rustc_demangle."0.1.15".default or true); }
+      { "0.1.16"."compiler_builtins" =
+        (f.rustc_demangle."0.1.16"."compiler_builtins" or false) ||
+        (f.rustc_demangle."0.1.16".rustc-dep-of-std or false) ||
+        (rustc_demangle."0.1.16"."rustc-dep-of-std" or false); }
+      { "0.1.16"."core" =
+        (f.rustc_demangle."0.1.16"."core" or false) ||
+        (f.rustc_demangle."0.1.16".rustc-dep-of-std or false) ||
+        (rustc_demangle."0.1.16"."rustc-dep-of-std" or false); }
+      { "0.1.16".default = (f.rustc_demangle."0.1.16".default or true); }
     ];
   }) [];
+
+
+# end
+# rustc_version-0.2.3
+
+  crates.rustc_version."0.2.3" = deps: { features?(features_.rustc_version."0.2.3" deps {}) }: buildRustCrate {
+    crateName = "rustc_version";
+    version = "0.2.3";
+    description = "A library for querying the version of a installed rustc compiler";
+    authors = [ "Marvin Löbel <loebel.marvin@gmail.com>" ];
+    sha256 = "0rgwzbgs3i9fqjm1p4ra3n7frafmpwl29c8lw85kv1rxn7n2zaa7";
+    dependencies = mapFeatures features ([
+      (crates."semver"."${deps."rustc_version"."0.2.3"."semver"}" deps)
+    ]);
+  };
+  features_.rustc_version."0.2.3" = deps: f: updateFeatures f (rec {
+    rustc_version."0.2.3".default = (f.rustc_version."0.2.3".default or true);
+    semver."${deps.rustc_version."0.2.3".semver}".default = true;
+  }) [
+    (features_.semver."${deps."rustc_version"."0.2.3"."semver"}" deps)
+  ];
 
 
 # end
@@ -2226,6 +3040,71 @@ rec {
   };
   features_.scoped_threadpool."0.1.9" = deps: f: updateFeatures f (rec {
     scoped_threadpool."0.1.9".default = (f.scoped_threadpool."0.1.9".default or true);
+  }) [];
+
+
+# end
+# scopeguard-1.0.0
+
+  crates.scopeguard."1.0.0" = deps: { features?(features_.scopeguard."1.0.0" deps {}) }: buildRustCrate {
+    crateName = "scopeguard";
+    version = "1.0.0";
+    description = "A RAII scope guard that will run a given closure when it goes out of scope,\neven if the code between panics (assuming unwinding panic).\n\nDefines the macros `defer!`, `defer_on_unwind!`, `defer_on_success!` as\nshorthands for guards with one of the implemented strategies.\n";
+    authors = [ "bluss" ];
+    sha256 = "15vrix0jx3i4naqnjswddzn4m036krrv71a8vkh3b1zq4hxmrb0q";
+    features = mkFeatures (features."scopeguard"."1.0.0" or {});
+  };
+  features_.scopeguard."1.0.0" = deps: f: updateFeatures f (rec {
+    scopeguard = fold recursiveUpdate {} [
+      { "1.0.0"."use_std" =
+        (f.scopeguard."1.0.0"."use_std" or false) ||
+        (f.scopeguard."1.0.0".default or false) ||
+        (scopeguard."1.0.0"."default" or false); }
+      { "1.0.0".default = (f.scopeguard."1.0.0".default or true); }
+    ];
+  }) [];
+
+
+# end
+# semver-0.9.0
+
+  crates.semver."0.9.0" = deps: { features?(features_.semver."0.9.0" deps {}) }: buildRustCrate {
+    crateName = "semver";
+    version = "0.9.0";
+    description = "Semantic version parsing and comparison.\n";
+    authors = [ "Steve Klabnik <steve@steveklabnik.com>" "The Rust Project Developers" ];
+    sha256 = "0azak2lb2wc36s3x15az886kck7rpnksrw14lalm157rg9sc9z63";
+    dependencies = mapFeatures features ([
+      (crates."semver_parser"."${deps."semver"."0.9.0"."semver_parser"}" deps)
+    ]);
+    features = mkFeatures (features."semver"."0.9.0" or {});
+  };
+  features_.semver."0.9.0" = deps: f: updateFeatures f (rec {
+    semver = fold recursiveUpdate {} [
+      { "0.9.0"."serde" =
+        (f.semver."0.9.0"."serde" or false) ||
+        (f.semver."0.9.0".ci or false) ||
+        (semver."0.9.0"."ci" or false); }
+      { "0.9.0".default = (f.semver."0.9.0".default or true); }
+    ];
+    semver_parser."${deps.semver."0.9.0".semver_parser}".default = true;
+  }) [
+    (features_.semver_parser."${deps."semver"."0.9.0"."semver_parser"}" deps)
+  ];
+
+
+# end
+# semver-parser-0.7.0
+
+  crates.semver_parser."0.7.0" = deps: { features?(features_.semver_parser."0.7.0" deps {}) }: buildRustCrate {
+    crateName = "semver-parser";
+    version = "0.7.0";
+    description = "Parsing of the semver spec.\n";
+    authors = [ "Steve Klabnik <steve@steveklabnik.com>" ];
+    sha256 = "1da66c8413yakx0y15k8c055yna5lyb6fr0fw9318kdwkrk5k12h";
+  };
+  features_.semver_parser."0.7.0" = deps: f: updateFeatures f (rec {
+    semver_parser."0.7.0".default = (f.semver_parser."0.7.0".default or true);
   }) [];
 
 
@@ -2493,6 +3372,36 @@ rec {
 
 
 # end
+# tiff-0.2.2
+
+  crates.tiff."0.2.2" = deps: { features?(features_.tiff."0.2.2" deps {}) }: buildRustCrate {
+    crateName = "tiff";
+    version = "0.2.2";
+    description = "TIFF decoding and encoding library in pure Rust";
+    authors = [ "ccgn" "bvssvni <bvssvni@gmail.com>" "nwin" "TyOverby <ty@pre-alpha.com>" "HeroicKatora" "Calum" "CensoredUsername <cens.username@gmail.com>" "Robzz" ];
+    sha256 = "0na8sv77k9gakn0mgiw309zimw34b3598bjl1rg0s236hx8vj3f2";
+    dependencies = mapFeatures features ([
+      (crates."byteorder"."${deps."tiff"."0.2.2"."byteorder"}" deps)
+      (crates."lzw"."${deps."tiff"."0.2.2"."lzw"}" deps)
+      (crates."num_derive"."${deps."tiff"."0.2.2"."num_derive"}" deps)
+      (crates."num_traits"."${deps."tiff"."0.2.2"."num_traits"}" deps)
+    ]);
+  };
+  features_.tiff."0.2.2" = deps: f: updateFeatures f (rec {
+    byteorder."${deps.tiff."0.2.2".byteorder}".default = true;
+    lzw."${deps.tiff."0.2.2".lzw}".default = true;
+    num_derive."${deps.tiff."0.2.2".num_derive}".default = true;
+    num_traits."${deps.tiff."0.2.2".num_traits}".default = true;
+    tiff."0.2.2".default = (f.tiff."0.2.2".default or true);
+  }) [
+    (features_.byteorder."${deps."tiff"."0.2.2"."byteorder"}" deps)
+    (features_.lzw."${deps."tiff"."0.2.2"."lzw"}" deps)
+    (features_.num_derive."${deps."tiff"."0.2.2"."num_derive"}" deps)
+    (features_.num_traits."${deps."tiff"."0.2.2"."num_traits"}" deps)
+  ];
+
+
+# end
 # time-0.1.42
 
   crates.time."0.1.42" = deps: { features?(features_.time."0.1.42" deps {}) }: buildRustCrate {
@@ -2573,21 +3482,6 @@ rec {
 
 
 # end
-# ucd-util-0.1.3
-
-  crates.ucd_util."0.1.3" = deps: { features?(features_.ucd_util."0.1.3" deps {}) }: buildRustCrate {
-    crateName = "ucd-util";
-    version = "0.1.3";
-    description = "A small utility library for working with the Unicode character database.\n";
-    authors = [ "Andrew Gallant <jamslam@gmail.com>" ];
-    sha256 = "1n1qi3jywq5syq90z9qd8qzbn58pcjgv1sx4sdmipm4jf9zanz15";
-  };
-  features_.ucd_util."0.1.3" = deps: f: updateFeatures f (rec {
-    ucd_util."0.1.3".default = (f.ucd_util."0.1.3".default or true);
-  }) [];
-
-
-# end
 # unicode-segmentation-1.3.0
 
   crates.unicode_segmentation."1.3.0" = deps: { features?(features_.unicode_segmentation."1.3.0" deps {}) }: buildRustCrate {
@@ -2636,17 +3530,17 @@ rec {
 
 
 # end
-# utf8-ranges-1.0.3
+# utf8-ranges-1.0.4
 
-  crates.utf8_ranges."1.0.3" = deps: { features?(features_.utf8_ranges."1.0.3" deps {}) }: buildRustCrate {
+  crates.utf8_ranges."1.0.4" = deps: { features?(features_.utf8_ranges."1.0.4" deps {}) }: buildRustCrate {
     crateName = "utf8-ranges";
-    version = "1.0.3";
-    description = "Convert ranges of Unicode codepoints to UTF-8 byte ranges.";
+    version = "1.0.4";
+    description = "DEPRECATED. Use regex-syntax::utf8 submodule instead.";
     authors = [ "Andrew Gallant <jamslam@gmail.com>" ];
-    sha256 = "0nkh73y241czrxagm77qz20qcfn3h54a6v9cpvc7wjzwkaaqkswp";
+    sha256 = "0arhv375dh3l9pydbvzdfqyx9v1car0msdc91wjv227l22p9vqci";
   };
-  features_.utf8_ranges."1.0.3" = deps: f: updateFeatures f (rec {
-    utf8_ranges."1.0.3".default = (f.utf8_ranges."1.0.3".default or true);
+  features_.utf8_ranges."1.0.4" = deps: f: updateFeatures f (rec {
+    utf8_ranges."1.0.4".default = (f.utf8_ranges."1.0.4".default or true);
   }) [];
 
 

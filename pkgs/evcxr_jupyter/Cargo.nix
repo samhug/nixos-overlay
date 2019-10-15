@@ -6,170 +6,202 @@ let inherit (lib.lists) fold;
 in
 rec {
   crates = cratesIO // rec {
-# evcxr-0.3.5
+# evcxr-0.4.3
 
-    crates.evcxr."0.3.5" = deps: { features?(features_.evcxr."0.3.5" deps {}) }: buildRustCrate {
+    crates.evcxr."0.4.3" = deps: { features?(features_.evcxr."0.4.3" deps {}) }: buildRustCrate {
       crateName = "evcxr";
-      version = "0.3.5";
+      version = "0.4.3";
       description = "An Evaluation Context for Rust";
       authors = [ "David Lattimore <dvdlttmr@gmail.com>" "Matthias Bussonnier <bussonniermatthias@gmail.com>" "Daniel Griffen <daniel@griffen.io>" "David Bernard <david.bernard.31@gmail.com>" ];
+      edition = "2018";
       src = include [ "Cargo.toml" " evcxr" ] ./.;
       workspace_member = "evcxr";
       dependencies = mapFeatures features ([
-        (cratesIO.crates."backtrace"."${deps."evcxr"."0.3.5"."backtrace"}" deps)
-        (cratesIO.crates."failure"."${deps."evcxr"."0.3.5"."failure"}" deps)
-        (cratesIO.crates."json"."${deps."evcxr"."0.3.5"."json"}" deps)
-        (cratesIO.crates."lazy_static"."${deps."evcxr"."0.3.5"."lazy_static"}" deps)
-        (cratesIO.crates."libc"."${deps."evcxr"."0.3.5"."libc"}" deps)
-        (cratesIO.crates."libloading"."${deps."evcxr"."0.3.5"."libloading"}" deps)
-        (cratesIO.crates."proc_macro2"."${deps."evcxr"."0.3.5"."proc_macro2"}" deps)
-        (cratesIO.crates."rand"."${deps."evcxr"."0.3.5"."rand"}" deps)
-        (cratesIO.crates."regex"."${deps."evcxr"."0.3.5"."regex"}" deps)
-        (cratesIO.crates."syn"."${deps."evcxr"."0.3.5"."syn"}" deps)
-        (cratesIO.crates."tempfile"."${deps."evcxr"."0.3.5"."tempfile"}" deps)
+        (cratesIO.crates."backtrace"."${deps."evcxr"."0.4.3"."backtrace"}" deps)
+        (cratesIO.crates."dirs"."${deps."evcxr"."0.4.3"."dirs"}" deps)
+        (cratesIO.crates."failure"."${deps."evcxr"."0.4.3"."failure"}" deps)
+        (cratesIO.crates."json"."${deps."evcxr"."0.4.3"."json"}" deps)
+        (cratesIO.crates."lazy_static"."${deps."evcxr"."0.4.3"."lazy_static"}" deps)
+        (cratesIO.crates."libc"."${deps."evcxr"."0.4.3"."libc"}" deps)
+        (cratesIO.crates."libloading"."${deps."evcxr"."0.4.3"."libloading"}" deps)
+        (cratesIO.crates."proc_macro2"."${deps."evcxr"."0.4.3"."proc_macro2"}" deps)
+        (cratesIO.crates."regex"."${deps."evcxr"."0.4.3"."regex"}" deps)
+        (cratesIO.crates."syn"."${deps."evcxr"."0.4.3"."syn"}" deps)
+        (cratesIO.crates."tempfile"."${deps."evcxr"."0.4.3"."tempfile"}" deps)
       ])
         ++ (if (kernel == "linux" || kernel == "darwin") then mapFeatures features ([
-        (cratesIO.crates."sig"."${deps."evcxr"."0.3.5"."sig"}" deps)
+        (cratesIO.crates."sig"."${deps."evcxr"."0.4.3"."sig"}" deps)
       ]) else []);
     };
-    features_.evcxr."0.3.5" = deps: f: updateFeatures f (rec {
-      backtrace."${deps.evcxr."0.3.5".backtrace}".default = true;
-      evcxr."0.3.5".default = (f.evcxr."0.3.5".default or true);
+    features_.evcxr."0.4.3" = deps: f: updateFeatures f (rec {
+      backtrace."${deps.evcxr."0.4.3".backtrace}".default = true;
+      dirs."${deps.evcxr."0.4.3".dirs}".default = true;
+      evcxr."0.4.3".default = (f.evcxr."0.4.3".default or true);
       failure = fold recursiveUpdate {} [
-        { "${deps.evcxr."0.3.5".failure}"."std" = true; }
-        { "${deps.evcxr."0.3.5".failure}".default = (f.failure."${deps.evcxr."0.3.5".failure}".default or false); }
+        { "${deps.evcxr."0.4.3".failure}"."std" = true; }
+        { "${deps.evcxr."0.4.3".failure}".default = (f.failure."${deps.evcxr."0.4.3".failure}".default or false); }
       ];
-      json."${deps.evcxr."0.3.5".json}".default = true;
-      lazy_static."${deps.evcxr."0.3.5".lazy_static}".default = true;
-      libc."${deps.evcxr."0.3.5".libc}".default = true;
-      libloading."${deps.evcxr."0.3.5".libloading}".default = true;
-      proc_macro2."${deps.evcxr."0.3.5".proc_macro2}".default = (f.proc_macro2."${deps.evcxr."0.3.5".proc_macro2}".default or false);
-      rand."${deps.evcxr."0.3.5".rand}".default = true;
-      regex."${deps.evcxr."0.3.5".regex}".default = true;
-      sig."${deps.evcxr."0.3.5".sig}".default = true;
+      json."${deps.evcxr."0.4.3".json}".default = true;
+      lazy_static."${deps.evcxr."0.4.3".lazy_static}".default = true;
+      libc."${deps.evcxr."0.4.3".libc}".default = true;
+      libloading."${deps.evcxr."0.4.3".libloading}".default = true;
+      proc_macro2."${deps.evcxr."0.4.3".proc_macro2}".default = (f.proc_macro2."${deps.evcxr."0.4.3".proc_macro2}".default or false);
+      regex."${deps.evcxr."0.4.3".regex}".default = true;
+      sig."${deps.evcxr."0.4.3".sig}".default = true;
       syn = fold recursiveUpdate {} [
-        { "${deps.evcxr."0.3.5".syn}"."clone-impls" = true; }
-        { "${deps.evcxr."0.3.5".syn}"."extra-traits" = true; }
-        { "${deps.evcxr."0.3.5".syn}"."full" = true; }
-        { "${deps.evcxr."0.3.5".syn}"."parsing" = true; }
-        { "${deps.evcxr."0.3.5".syn}"."printing" = true; }
-        { "${deps.evcxr."0.3.5".syn}".default = (f.syn."${deps.evcxr."0.3.5".syn}".default or false); }
+        { "${deps.evcxr."0.4.3".syn}"."clone-impls" = true; }
+        { "${deps.evcxr."0.4.3".syn}"."extra-traits" = true; }
+        { "${deps.evcxr."0.4.3".syn}"."full" = true; }
+        { "${deps.evcxr."0.4.3".syn}"."parsing" = true; }
+        { "${deps.evcxr."0.4.3".syn}"."printing" = true; }
+        { "${deps.evcxr."0.4.3".syn}".default = (f.syn."${deps.evcxr."0.4.3".syn}".default or false); }
       ];
-      tempfile."${deps.evcxr."0.3.5".tempfile}".default = true;
+      tempfile."${deps.evcxr."0.4.3".tempfile}".default = true;
     }) [
-      (cratesIO.features_.backtrace."${deps."evcxr"."0.3.5"."backtrace"}" deps)
-      (cratesIO.features_.failure."${deps."evcxr"."0.3.5"."failure"}" deps)
-      (cratesIO.features_.json."${deps."evcxr"."0.3.5"."json"}" deps)
-      (cratesIO.features_.lazy_static."${deps."evcxr"."0.3.5"."lazy_static"}" deps)
-      (cratesIO.features_.libc."${deps."evcxr"."0.3.5"."libc"}" deps)
-      (cratesIO.features_.libloading."${deps."evcxr"."0.3.5"."libloading"}" deps)
-      (cratesIO.features_.proc_macro2."${deps."evcxr"."0.3.5"."proc_macro2"}" deps)
-      (cratesIO.features_.rand."${deps."evcxr"."0.3.5"."rand"}" deps)
-      (cratesIO.features_.regex."${deps."evcxr"."0.3.5"."regex"}" deps)
-      (cratesIO.features_.syn."${deps."evcxr"."0.3.5"."syn"}" deps)
-      (cratesIO.features_.tempfile."${deps."evcxr"."0.3.5"."tempfile"}" deps)
-      (cratesIO.features_.sig."${deps."evcxr"."0.3.5"."sig"}" deps)
+      (cratesIO.features_.backtrace."${deps."evcxr"."0.4.3"."backtrace"}" deps)
+      (cratesIO.features_.dirs."${deps."evcxr"."0.4.3"."dirs"}" deps)
+      (cratesIO.features_.failure."${deps."evcxr"."0.4.3"."failure"}" deps)
+      (cratesIO.features_.json."${deps."evcxr"."0.4.3"."json"}" deps)
+      (cratesIO.features_.lazy_static."${deps."evcxr"."0.4.3"."lazy_static"}" deps)
+      (cratesIO.features_.libc."${deps."evcxr"."0.4.3"."libc"}" deps)
+      (cratesIO.features_.libloading."${deps."evcxr"."0.4.3"."libloading"}" deps)
+      (cratesIO.features_.proc_macro2."${deps."evcxr"."0.4.3"."proc_macro2"}" deps)
+      (cratesIO.features_.regex."${deps."evcxr"."0.4.3"."regex"}" deps)
+      (cratesIO.features_.syn."${deps."evcxr"."0.4.3"."syn"}" deps)
+      (cratesIO.features_.tempfile."${deps."evcxr"."0.4.3"."tempfile"}" deps)
+      (cratesIO.features_.sig."${deps."evcxr"."0.4.3"."sig"}" deps)
     ];
 
 
 # end
-# evcxr_jupyter-0.3.5
+# evcxr_image-1.0.0
 
-    crates.evcxr_jupyter."0.3.5" = deps: { features?(features_.evcxr_jupyter."0.3.5" deps {}) }: buildRustCrate {
+    crates.evcxr_image."1.0.0" = deps: { features?(features_.evcxr_image."1.0.0" deps {}) }: buildRustCrate {
+      crateName = "evcxr_image";
+      version = "1.0.0";
+      description = "Displays images from the image crate in Evcxr Jupyter";
+      authors = [ "David Lattimore <dml@google.com>" ];
+      edition = "2018";
+      src = include [ "Cargo.toml" " runtimes/evcxr_image" ] ./.;
+      workspace_member = "runtimes/evcxr_image";
+      dependencies = mapFeatures features ([
+        (crates."evcxr_runtime"."${deps."evcxr_image"."1.0.0"."evcxr_runtime"}" deps)
+        (cratesIO.crates."image"."${deps."evcxr_image"."1.0.0"."image"}" deps)
+      ]);
+    };
+    features_.evcxr_image."1.0.0" = deps: f: updateFeatures f (rec {
+      evcxr_image."1.0.0".default = (f.evcxr_image."1.0.0".default or true);
+      evcxr_runtime = fold recursiveUpdate {} [
+        { "${deps.evcxr_image."1.0.0".evcxr_runtime}"."bytes" = true; }
+        { "${deps.evcxr_image."1.0.0".evcxr_runtime}".default = true; }
+      ];
+      image."${deps.evcxr_image."1.0.0".image}".default = true;
+    }) [
+      (features_.evcxr_runtime."${deps."evcxr_image"."1.0.0"."evcxr_runtime"}" deps)
+      (cratesIO.features_.image."${deps."evcxr_image"."1.0.0"."image"}" deps)
+    ];
+
+
+# end
+# evcxr_jupyter-0.4.3
+
+    crates.evcxr_jupyter."0.4.3" = deps: { features?(features_.evcxr_jupyter."0.4.3" deps {}) }: buildRustCrate {
       crateName = "evcxr_jupyter";
-      version = "0.3.5";
+      version = "0.4.3";
       description = "An Jupyter Kernel for Rust";
       authors = [ "David Lattimore <dvdlttmr@gmail.com>" "David Bernard <david.bernard.31@gmail.com>" ];
+      edition = "2018";
       src = include [ "Cargo.toml" " evcxr_jupyter" ] ./.;
       workspace_member = "evcxr_jupyter";
       dependencies = mapFeatures features ([
-        (cratesIO.crates."chrono"."${deps."evcxr_jupyter"."0.3.5"."chrono"}" deps)
-        (cratesIO.crates."colored"."${deps."evcxr_jupyter"."0.3.5"."colored"}" deps)
-        (cratesIO.crates."dirs"."${deps."evcxr_jupyter"."0.3.5"."dirs"}" deps)
-        (crates."evcxr"."${deps."evcxr_jupyter"."0.3.5"."evcxr"}" deps)
-        (cratesIO.crates."failure"."${deps."evcxr_jupyter"."0.3.5"."failure"}" deps)
-        (cratesIO.crates."hex"."${deps."evcxr_jupyter"."0.3.5"."hex"}" deps)
-        (cratesIO.crates."hmac"."${deps."evcxr_jupyter"."0.3.5"."hmac"}" deps)
-        (cratesIO.crates."json"."${deps."evcxr_jupyter"."0.3.5"."json"}" deps)
-        (cratesIO.crates."sha2"."${deps."evcxr_jupyter"."0.3.5"."sha2"}" deps)
-        (cratesIO.crates."uuid"."${deps."evcxr_jupyter"."0.3.5"."uuid"}" deps)
-        (cratesIO.crates."zmq"."${deps."evcxr_jupyter"."0.3.5"."zmq"}" deps)
+        (cratesIO.crates."chrono"."${deps."evcxr_jupyter"."0.4.3"."chrono"}" deps)
+        (cratesIO.crates."colored"."${deps."evcxr_jupyter"."0.4.3"."colored"}" deps)
+        (cratesIO.crates."dirs"."${deps."evcxr_jupyter"."0.4.3"."dirs"}" deps)
+        (crates."evcxr"."${deps."evcxr_jupyter"."0.4.3"."evcxr"}" deps)
+        (cratesIO.crates."failure"."${deps."evcxr_jupyter"."0.4.3"."failure"}" deps)
+        (cratesIO.crates."hex"."${deps."evcxr_jupyter"."0.4.3"."hex"}" deps)
+        (cratesIO.crates."hmac"."${deps."evcxr_jupyter"."0.4.3"."hmac"}" deps)
+        (cratesIO.crates."json"."${deps."evcxr_jupyter"."0.4.3"."json"}" deps)
+        (cratesIO.crates."sha2"."${deps."evcxr_jupyter"."0.4.3"."sha2"}" deps)
+        (cratesIO.crates."uuid"."${deps."evcxr_jupyter"."0.4.3"."uuid"}" deps)
+        (cratesIO.crates."zmq"."${deps."evcxr_jupyter"."0.4.3"."zmq"}" deps)
       ]);
     };
-    features_.evcxr_jupyter."0.3.5" = deps: f: updateFeatures f (rec {
-      chrono."${deps.evcxr_jupyter."0.3.5".chrono}".default = true;
-      colored."${deps.evcxr_jupyter."0.3.5".colored}".default = true;
-      dirs."${deps.evcxr_jupyter."0.3.5".dirs}".default = true;
-      evcxr."${deps.evcxr_jupyter."0.3.5".evcxr}".default = true;
-      evcxr_jupyter."0.3.5".default = (f.evcxr_jupyter."0.3.5".default or true);
+    features_.evcxr_jupyter."0.4.3" = deps: f: updateFeatures f (rec {
+      chrono."${deps.evcxr_jupyter."0.4.3".chrono}".default = true;
+      colored."${deps.evcxr_jupyter."0.4.3".colored}".default = true;
+      dirs."${deps.evcxr_jupyter."0.4.3".dirs}".default = true;
+      evcxr."${deps.evcxr_jupyter."0.4.3".evcxr}".default = true;
+      evcxr_jupyter."0.4.3".default = (f.evcxr_jupyter."0.4.3".default or true);
       failure = fold recursiveUpdate {} [
-        { "${deps.evcxr_jupyter."0.3.5".failure}"."std" = true; }
-        { "${deps.evcxr_jupyter."0.3.5".failure}".default = (f.failure."${deps.evcxr_jupyter."0.3.5".failure}".default or false); }
+        { "${deps.evcxr_jupyter."0.4.3".failure}"."std" = true; }
+        { "${deps.evcxr_jupyter."0.4.3".failure}".default = (f.failure."${deps.evcxr_jupyter."0.4.3".failure}".default or false); }
       ];
-      hex."${deps.evcxr_jupyter."0.3.5".hex}".default = true;
-      hmac."${deps.evcxr_jupyter."0.3.5".hmac}".default = true;
-      json."${deps.evcxr_jupyter."0.3.5".json}".default = true;
-      sha2."${deps.evcxr_jupyter."0.3.5".sha2}".default = true;
+      hex."${deps.evcxr_jupyter."0.4.3".hex}".default = true;
+      hmac."${deps.evcxr_jupyter."0.4.3".hmac}".default = true;
+      json."${deps.evcxr_jupyter."0.4.3".json}".default = true;
+      sha2."${deps.evcxr_jupyter."0.4.3".sha2}".default = true;
       uuid = fold recursiveUpdate {} [
-        { "${deps.evcxr_jupyter."0.3.5".uuid}"."v4" = true; }
-        { "${deps.evcxr_jupyter."0.3.5".uuid}".default = true; }
+        { "${deps.evcxr_jupyter."0.4.3".uuid}"."v4" = true; }
+        { "${deps.evcxr_jupyter."0.4.3".uuid}".default = true; }
       ];
-      zmq."${deps.evcxr_jupyter."0.3.5".zmq}".default = true;
+      zmq."${deps.evcxr_jupyter."0.4.3".zmq}".default = true;
     }) [
-      (cratesIO.features_.chrono."${deps."evcxr_jupyter"."0.3.5"."chrono"}" deps)
-      (cratesIO.features_.colored."${deps."evcxr_jupyter"."0.3.5"."colored"}" deps)
-      (cratesIO.features_.dirs."${deps."evcxr_jupyter"."0.3.5"."dirs"}" deps)
-      (features_.evcxr."${deps."evcxr_jupyter"."0.3.5"."evcxr"}" deps)
-      (cratesIO.features_.failure."${deps."evcxr_jupyter"."0.3.5"."failure"}" deps)
-      (cratesIO.features_.hex."${deps."evcxr_jupyter"."0.3.5"."hex"}" deps)
-      (cratesIO.features_.hmac."${deps."evcxr_jupyter"."0.3.5"."hmac"}" deps)
-      (cratesIO.features_.json."${deps."evcxr_jupyter"."0.3.5"."json"}" deps)
-      (cratesIO.features_.sha2."${deps."evcxr_jupyter"."0.3.5"."sha2"}" deps)
-      (cratesIO.features_.uuid."${deps."evcxr_jupyter"."0.3.5"."uuid"}" deps)
-      (cratesIO.features_.zmq."${deps."evcxr_jupyter"."0.3.5"."zmq"}" deps)
+      (cratesIO.features_.chrono."${deps."evcxr_jupyter"."0.4.3"."chrono"}" deps)
+      (cratesIO.features_.colored."${deps."evcxr_jupyter"."0.4.3"."colored"}" deps)
+      (cratesIO.features_.dirs."${deps."evcxr_jupyter"."0.4.3"."dirs"}" deps)
+      (features_.evcxr."${deps."evcxr_jupyter"."0.4.3"."evcxr"}" deps)
+      (cratesIO.features_.failure."${deps."evcxr_jupyter"."0.4.3"."failure"}" deps)
+      (cratesIO.features_.hex."${deps."evcxr_jupyter"."0.4.3"."hex"}" deps)
+      (cratesIO.features_.hmac."${deps."evcxr_jupyter"."0.4.3"."hmac"}" deps)
+      (cratesIO.features_.json."${deps."evcxr_jupyter"."0.4.3"."json"}" deps)
+      (cratesIO.features_.sha2."${deps."evcxr_jupyter"."0.4.3"."sha2"}" deps)
+      (cratesIO.features_.uuid."${deps."evcxr_jupyter"."0.4.3"."uuid"}" deps)
+      (cratesIO.features_.zmq."${deps."evcxr_jupyter"."0.4.3"."zmq"}" deps)
     ];
 
 
 # end
-# evcxr_repl-0.3.5
+# evcxr_repl-0.4.3
 
-    crates.evcxr_repl."0.3.5" = deps: { features?(features_.evcxr_repl."0.3.5" deps {}) }: buildRustCrate {
+    crates.evcxr_repl."0.4.3" = deps: { features?(features_.evcxr_repl."0.4.3" deps {}) }: buildRustCrate {
       crateName = "evcxr_repl";
-      version = "0.3.5";
+      version = "0.4.3";
       description = "A REPL for Rust";
       authors = [ "David Lattimore <dvdlttmr@gmail.com>" "Diogo Sousa <diogogsousa@gmail.com>" ];
+      edition = "2018";
       src = include [ "Cargo.toml" " evcxr_repl" ] ./.;
       workspace_member = "evcxr_repl";
       dependencies = mapFeatures features ([
-        (cratesIO.crates."colored"."${deps."evcxr_repl"."0.3.5"."colored"}" deps)
-        (cratesIO.crates."dirs"."${deps."evcxr_repl"."0.3.5"."dirs"}" deps)
-        (crates."evcxr"."${deps."evcxr_repl"."0.3.5"."evcxr"}" deps)
-        (cratesIO.crates."failure"."${deps."evcxr_repl"."0.3.5"."failure"}" deps)
-        (cratesIO.crates."lazy_static"."${deps."evcxr_repl"."0.3.5"."lazy_static"}" deps)
-        (cratesIO.crates."regex"."${deps."evcxr_repl"."0.3.5"."regex"}" deps)
-        (cratesIO.crates."rustyline"."${deps."evcxr_repl"."0.3.5"."rustyline"}" deps)
+        (cratesIO.crates."colored"."${deps."evcxr_repl"."0.4.3"."colored"}" deps)
+        (cratesIO.crates."dirs"."${deps."evcxr_repl"."0.4.3"."dirs"}" deps)
+        (crates."evcxr"."${deps."evcxr_repl"."0.4.3"."evcxr"}" deps)
+        (cratesIO.crates."failure"."${deps."evcxr_repl"."0.4.3"."failure"}" deps)
+        (cratesIO.crates."lazy_static"."${deps."evcxr_repl"."0.4.3"."lazy_static"}" deps)
+        (cratesIO.crates."regex"."${deps."evcxr_repl"."0.4.3"."regex"}" deps)
+        (cratesIO.crates."rustyline"."${deps."evcxr_repl"."0.4.3"."rustyline"}" deps)
       ]);
     };
-    features_.evcxr_repl."0.3.5" = deps: f: updateFeatures f (rec {
-      colored."${deps.evcxr_repl."0.3.5".colored}".default = true;
-      dirs."${deps.evcxr_repl."0.3.5".dirs}".default = true;
-      evcxr."${deps.evcxr_repl."0.3.5".evcxr}".default = true;
-      evcxr_repl."0.3.5".default = (f.evcxr_repl."0.3.5".default or true);
+    features_.evcxr_repl."0.4.3" = deps: f: updateFeatures f (rec {
+      colored."${deps.evcxr_repl."0.4.3".colored}".default = true;
+      dirs."${deps.evcxr_repl."0.4.3".dirs}".default = true;
+      evcxr."${deps.evcxr_repl."0.4.3".evcxr}".default = true;
+      evcxr_repl."0.4.3".default = (f.evcxr_repl."0.4.3".default or true);
       failure = fold recursiveUpdate {} [
-        { "${deps.evcxr_repl."0.3.5".failure}"."std" = true; }
-        { "${deps.evcxr_repl."0.3.5".failure}".default = (f.failure."${deps.evcxr_repl."0.3.5".failure}".default or false); }
+        { "${deps.evcxr_repl."0.4.3".failure}"."std" = true; }
+        { "${deps.evcxr_repl."0.4.3".failure}".default = (f.failure."${deps.evcxr_repl."0.4.3".failure}".default or false); }
       ];
-      lazy_static."${deps.evcxr_repl."0.3.5".lazy_static}".default = true;
-      regex."${deps.evcxr_repl."0.3.5".regex}".default = true;
-      rustyline."${deps.evcxr_repl."0.3.5".rustyline}".default = true;
+      lazy_static."${deps.evcxr_repl."0.4.3".lazy_static}".default = true;
+      regex."${deps.evcxr_repl."0.4.3".regex}".default = true;
+      rustyline."${deps.evcxr_repl."0.4.3".rustyline}".default = true;
     }) [
-      (cratesIO.features_.colored."${deps."evcxr_repl"."0.3.5"."colored"}" deps)
-      (cratesIO.features_.dirs."${deps."evcxr_repl"."0.3.5"."dirs"}" deps)
-      (features_.evcxr."${deps."evcxr_repl"."0.3.5"."evcxr"}" deps)
-      (cratesIO.features_.failure."${deps."evcxr_repl"."0.3.5"."failure"}" deps)
-      (cratesIO.features_.lazy_static."${deps."evcxr_repl"."0.3.5"."lazy_static"}" deps)
-      (cratesIO.features_.regex."${deps."evcxr_repl"."0.3.5"."regex"}" deps)
-      (cratesIO.features_.rustyline."${deps."evcxr_repl"."0.3.5"."rustyline"}" deps)
+      (cratesIO.features_.colored."${deps."evcxr_repl"."0.4.3"."colored"}" deps)
+      (cratesIO.features_.dirs."${deps."evcxr_repl"."0.4.3"."dirs"}" deps)
+      (features_.evcxr."${deps."evcxr_repl"."0.4.3"."evcxr"}" deps)
+      (cratesIO.features_.failure."${deps."evcxr_repl"."0.4.3"."failure"}" deps)
+      (cratesIO.features_.lazy_static."${deps."evcxr_repl"."0.4.3"."lazy_static"}" deps)
+      (cratesIO.features_.regex."${deps."evcxr_repl"."0.4.3"."regex"}" deps)
+      (cratesIO.features_.rustyline."${deps."evcxr_repl"."0.4.3"."rustyline"}" deps)
     ];
 
 
@@ -203,42 +235,65 @@ rec {
 
 
 # end
+# print_performance_info-0.1.0
+
+    crates.print_performance_info."0.1.0" = deps: { features?(features_.print_performance_info."0.1.0" deps {}) }: buildRustCrate {
+      crateName = "print_performance_info";
+      version = "0.1.0";
+      authors = [ "David Lattimore <dml@google.com>" ];
+      edition = "2018";
+      src = include [ "Cargo.toml" " print_performance_info" ] ./.;
+      workspace_member = "print_performance_info";
+      dependencies = mapFeatures features ([
+        (crates."evcxr"."${deps."print_performance_info"."0.1.0"."evcxr"}" deps)
+      ]);
+    };
+    features_.print_performance_info."0.1.0" = deps: f: updateFeatures f (rec {
+      evcxr."${deps.print_performance_info."0.1.0".evcxr}".default = true;
+      print_performance_info."0.1.0".default = (f.print_performance_info."0.1.0".default or true);
+    }) [
+      (features_.evcxr."${deps."print_performance_info"."0.1.0"."evcxr"}" deps)
+    ];
+
+
+# end
 
   };
 
-  evcxr = crates.crates.evcxr."0.3.5" deps;
-  evcxr_jupyter = crates.crates.evcxr_jupyter."0.3.5" deps;
-  evcxr_repl = crates.crates.evcxr_repl."0.3.5" deps;
+  evcxr = crates.crates.evcxr."0.4.3" deps;
+  evcxr_image = crates.crates.evcxr_image."1.0.0" deps;
+  evcxr_jupyter = crates.crates.evcxr_jupyter."0.4.3" deps;
+  evcxr_repl = crates.crates.evcxr_repl."0.4.3" deps;
   evcxr_runtime = crates.crates.evcxr_runtime."1.1.0" deps;
-  __all = [ (evcxr {}) (evcxr_jupyter {}) (evcxr_repl {}) (evcxr_runtime {}) ];
+  print_performance_info = crates.crates.print_performance_info."0.1.0" deps;
+  __all = [ (evcxr {}) (evcxr_image {}) (evcxr_jupyter {}) (evcxr_repl {}) (evcxr_runtime {}) (print_performance_info {}) ];
+  deps.adler32."1.0.3" = {};
   deps.aho_corasick."0.6.10" = {
-    memchr = "2.2.0";
+    memchr = "2.2.1";
   };
   deps.approx."0.1.1" = {};
-  deps.argon2rs."0.2.5" = {
-    blake2_rfc = "0.2.18";
-    scoped_threadpool = "0.1.9";
-  };
-  deps.arrayvec."0.4.10" = {
+  deps.arrayref."0.3.5" = {};
+  deps.arrayvec."0.4.11" = {
     nodrop = "0.1.13";
   };
-  deps.autocfg."0.1.4" = {};
-  deps.backtrace."0.3.32" = {
-    backtrace_sys = "0.1.30";
+  deps.autocfg."0.1.5" = {};
+  deps.backtrace."0.3.34" = {
+    backtrace_sys = "0.1.31";
     cfg_if = "0.1.9";
-    libc = "0.2.58";
-    rustc_demangle = "0.1.15";
+    libc = "0.2.62";
+    rustc_demangle = "0.1.16";
   };
-  deps.backtrace_sys."0.1.30" = {
-    libc = "0.2.58";
-    cc = "1.0.37";
+  deps.backtrace_sys."0.1.31" = {
+    libc = "0.2.62";
+    cc = "1.0.40";
   };
   deps.base64."0.10.1" = {
     byteorder = "1.3.2";
   };
   deps.bitflags."1.1.0" = {};
-  deps.blake2_rfc."0.2.18" = {
-    arrayvec = "0.4.10";
+  deps.blake2b_simd."0.5.6" = {
+    arrayref = "0.3.5";
+    arrayvec = "0.4.11";
     constant_time_eq = "0.1.3";
   };
   deps.block_buffer."0.7.3" = {
@@ -252,7 +307,7 @@ rec {
   };
   deps.byte_tools."0.3.1" = {};
   deps.byteorder."1.3.2" = {};
-  deps.cc."1.0.37" = {};
+  deps.cc."1.0.40" = {};
   deps.cfg_if."0.1.9" = {};
   deps.cgmath."0.16.1" = {
     approx = "0.1.1";
@@ -260,7 +315,7 @@ rec {
     rand = "0.4.6";
   };
   deps.chrono."0.4.7" = {
-    libc = "0.2.58";
+    libc = "0.2.62";
     num_integer = "0.1.41";
     num_traits = "0.2.8";
     time = "0.1.42";
@@ -268,65 +323,94 @@ rec {
   deps.cloudabi."0.0.3" = {
     bitflags = "1.1.0";
   };
+  deps.color_quant."1.0.1" = {};
   deps.colored."1.8.0" = {
     lazy_static = "1.3.0";
     winconsole = "0.10.0";
   };
   deps.constant_time_eq."0.1.3" = {};
+  deps.crossbeam_deque."0.6.3" = {
+    crossbeam_epoch = "0.7.2";
+    crossbeam_utils = "0.6.6";
+  };
+  deps.crossbeam_epoch."0.7.2" = {
+    arrayvec = "0.4.11";
+    cfg_if = "0.1.9";
+    crossbeam_utils = "0.6.6";
+    lazy_static = "1.3.0";
+    memoffset = "0.5.1";
+    scopeguard = "1.0.0";
+  };
+  deps.crossbeam_queue."0.1.2" = {
+    crossbeam_utils = "0.6.6";
+  };
+  deps.crossbeam_utils."0.6.6" = {
+    cfg_if = "0.1.9";
+    lazy_static = "1.3.0";
+  };
   deps.crypto_mac."0.7.0" = {
     generic_array = "0.12.3";
     subtle = "1.0.0";
+  };
+  deps.deflate."0.7.20" = {
+    adler32 = "1.0.3";
+    byteorder = "1.3.2";
   };
   deps.digest."0.8.1" = {
     generic_array = "0.12.3";
   };
   deps.dirs."1.0.5" = {
-    redox_users = "0.3.0";
-    libc = "0.2.58";
+    redox_users = "0.3.1";
+    libc = "0.2.62";
     winapi = "0.3.7";
   };
-  deps.dirs."2.0.1" = {
+  deps.dirs."2.0.2" = {
     cfg_if = "0.1.9";
-    dirs_sys = "0.3.3";
+    dirs_sys = "0.3.4";
   };
-  deps.dirs_sys."0.3.3" = {
+  deps.dirs_sys."0.3.4" = {
     cfg_if = "0.1.9";
-    redox_users = "0.3.0";
-    libc = "0.2.58";
+    redox_users = "0.3.1";
+    libc = "0.2.62";
     winapi = "0.3.7";
   };
+  deps.either."1.5.2" = {};
   deps.error_chain."0.10.0" = {};
-  deps.evcxr."0.3.5" = {
-    backtrace = "0.3.32";
+  deps.evcxr."0.4.3" = {
+    backtrace = "0.3.34";
+    dirs = "2.0.2";
     failure = "0.1.5";
     json = "0.11.13";
     lazy_static = "1.3.0";
-    libc = "0.2.58";
+    libc = "0.2.62";
     libloading = "0.5.0";
     proc_macro2 = "0.4.27";
-    rand = "0.6.5";
     regex = "1.1.2";
     syn = "0.15.27";
     tempfile = "3.0.7";
     sig = "1.0.0";
   };
-  deps.evcxr_jupyter."0.3.5" = {
+  deps.evcxr_image."1.0.0" = {
+    evcxr_runtime = "1.1.0";
+    image = "0.21.2";
+  };
+  deps.evcxr_jupyter."0.4.3" = {
     chrono = "0.4.7";
     colored = "1.8.0";
-    dirs = "2.0.1";
-    evcxr = "0.3.5";
+    dirs = "2.0.2";
+    evcxr = "0.4.3";
     failure = "0.1.5";
     hex = "0.3.2";
-    hmac = "0.7.0";
+    hmac = "0.7.1";
     json = "0.11.13";
     sha2 = "0.8.0";
     uuid = "0.7.4";
     zmq = "0.9.1";
   };
-  deps.evcxr_repl."0.3.5" = {
+  deps.evcxr_repl."0.4.3" = {
     colored = "1.8.0";
-    dirs = "2.0.1";
-    evcxr = "0.3.5";
+    dirs = "2.0.2";
+    evcxr = "0.4.3";
     failure = "0.1.5";
     lazy_static = "1.3.0";
     regex = "1.1.2";
@@ -336,12 +420,12 @@ rec {
     base64 = "0.10.1";
   };
   deps.failure."0.1.5" = {
-    backtrace = "0.3.32";
+    backtrace = "0.3.34";
     failure_derive = "0.1.5";
   };
   deps.failure_derive."0.1.5" = {
     proc_macro2 = "0.4.27";
-    quote = "0.6.12";
+    quote = "0.6.13";
     syn = "0.15.27";
     synstructure = "0.10.2";
   };
@@ -350,80 +434,134 @@ rec {
   deps.generic_array."0.12.3" = {
     typenum = "1.10.0";
   };
+  deps.gif."0.10.2" = {
+    color_quant = "1.0.1";
+    lzw = "0.10.0";
+  };
   deps.hex."0.3.2" = {};
-  deps.hmac."0.7.0" = {
+  deps.hmac."0.7.1" = {
     crypto_mac = "0.7.0";
     digest = "0.8.1";
   };
+  deps.image."0.21.2" = {
+    byteorder = "1.3.2";
+    gif = "0.10.2";
+    jpeg_decoder = "0.1.15";
+    lzw = "0.10.0";
+    num_iter = "0.1.39";
+    num_rational = "0.2.2";
+    num_traits = "0.2.8";
+    png = "0.14.1";
+    scoped_threadpool = "0.1.9";
+    tiff = "0.2.2";
+  };
+  deps.inflate."0.4.5" = {
+    adler32 = "1.0.3";
+  };
+  deps.jpeg_decoder."0.1.15" = {
+    byteorder = "1.3.2";
+    rayon = "1.1.0";
+  };
   deps.json."0.11.13" = {};
   deps.lazy_static."1.3.0" = {};
-  deps.libc."0.2.58" = {};
+  deps.libc."0.2.62" = {};
   deps.libloading."0.5.0" = {
-    cc = "1.0.37";
+    cc = "1.0.40";
     winapi = "0.3.7";
   };
-  deps.log."0.4.6" = {
+  deps.log."0.4.8" = {
     cfg_if = "0.1.9";
   };
-  deps.memchr."2.2.0" = {};
+  deps.lzw."0.10.0" = {};
+  deps.memchr."2.2.1" = {};
+  deps.memoffset."0.5.1" = {
+    rustc_version = "0.2.3";
+  };
   deps.metadeps."1.1.2" = {
     error_chain = "0.10.0";
-    pkg_config = "0.3.14";
+    pkg_config = "0.3.15";
     toml = "0.2.1";
   };
   deps.nix."0.13.1" = {
     bitflags = "1.1.0";
     cfg_if = "0.1.9";
-    libc = "0.2.58";
+    libc = "0.2.62";
     void = "1.0.2";
   };
   deps.nodrop."0.1.13" = {};
+  deps.num_derive."0.2.5" = {
+    proc_macro2 = "0.4.27";
+    quote = "0.6.13";
+    syn = "0.15.27";
+  };
   deps.num_integer."0.1.41" = {
     num_traits = "0.2.8";
-    autocfg = "0.1.4";
+    autocfg = "0.1.5";
+  };
+  deps.num_iter."0.1.39" = {
+    num_integer = "0.1.41";
+    num_traits = "0.2.8";
+    autocfg = "0.1.5";
+  };
+  deps.num_rational."0.2.2" = {
+    num_integer = "0.1.41";
+    num_traits = "0.2.8";
+    autocfg = "0.1.5";
   };
   deps.num_traits."0.1.43" = {
     num_traits = "0.2.8";
   };
   deps.num_traits."0.2.8" = {
-    autocfg = "0.1.4";
+    autocfg = "0.1.5";
   };
-  deps.opaque_debug."0.2.2" = {};
-  deps.pkg_config."0.3.14" = {};
+  deps.num_cpus."1.10.1" = {
+    libc = "0.2.62";
+  };
+  deps.opaque_debug."0.2.3" = {};
+  deps.pkg_config."0.3.15" = {};
+  deps.png."0.14.1" = {
+    bitflags = "1.1.0";
+    deflate = "0.7.20";
+    inflate = "0.4.5";
+    num_iter = "0.1.39";
+  };
+  deps.print_performance_info."0.1.0" = {
+    evcxr = "0.4.3";
+  };
   deps.proc_macro2."0.4.27" = {
     unicode_xid = "0.1.0";
   };
-  deps.quote."0.6.12" = {
+  deps.quote."0.6.13" = {
     proc_macro2 = "0.4.27";
   };
   deps.rand."0.4.6" = {
     rand_core = "0.3.1";
     rdrand = "0.4.0";
     fuchsia_cprng = "0.1.1";
-    libc = "0.2.58";
+    libc = "0.2.62";
     winapi = "0.3.7";
   };
   deps.rand."0.6.5" = {
     rand_chacha = "0.1.1";
-    rand_core = "0.4.0";
+    rand_core = "0.4.2";
     rand_hc = "0.1.0";
     rand_isaac = "0.1.1";
     rand_jitter = "0.1.4";
     rand_os = "0.1.3";
     rand_pcg = "0.1.2";
     rand_xorshift = "0.1.1";
-    autocfg = "0.1.4";
-    libc = "0.2.58";
+    autocfg = "0.1.5";
+    libc = "0.2.62";
     winapi = "0.3.7";
   };
   deps.rand_chacha."0.1.1" = {
     rand_core = "0.3.1";
-    autocfg = "0.1.4";
+    autocfg = "0.1.5";
   };
   deps.rand_core."0.3.1" = {
-    rand_core = "0.4.0";
+    rand_core = "0.4.2";
   };
-  deps.rand_core."0.4.0" = {};
+  deps.rand_core."0.4.2" = {};
   deps.rand_hc."0.1.0" = {
     rand_core = "0.3.1";
   };
@@ -431,55 +569,73 @@ rec {
     rand_core = "0.3.1";
   };
   deps.rand_jitter."0.1.4" = {
-    rand_core = "0.4.0";
-    libc = "0.2.58";
+    rand_core = "0.4.2";
+    libc = "0.2.62";
     winapi = "0.3.7";
   };
   deps.rand_os."0.1.3" = {
-    rand_core = "0.4.0";
+    rand_core = "0.4.2";
     rdrand = "0.4.0";
     cloudabi = "0.0.3";
     fuchsia_cprng = "0.1.1";
-    libc = "0.2.58";
+    libc = "0.2.62";
     winapi = "0.3.7";
   };
   deps.rand_pcg."0.1.2" = {
-    rand_core = "0.4.0";
-    autocfg = "0.1.4";
+    rand_core = "0.4.2";
+    autocfg = "0.1.5";
   };
   deps.rand_xorshift."0.1.1" = {
     rand_core = "0.3.1";
+  };
+  deps.rayon."1.1.0" = {
+    crossbeam_deque = "0.6.3";
+    either = "1.5.2";
+    rayon_core = "1.5.0";
+  };
+  deps.rayon_core."1.5.0" = {
+    crossbeam_deque = "0.6.3";
+    crossbeam_queue = "0.1.2";
+    crossbeam_utils = "0.6.6";
+    lazy_static = "1.3.0";
+    num_cpus = "1.10.1";
   };
   deps.rdrand."0.4.0" = {
     rand_core = "0.3.1";
   };
   deps.redox_syscall."0.1.56" = {};
-  deps.redox_users."0.3.0" = {
-    argon2rs = "0.2.5";
+  deps.redox_users."0.3.1" = {
     failure = "0.1.5";
     rand_os = "0.1.3";
     redox_syscall = "0.1.56";
+    rust_argon2 = "0.5.1";
   };
   deps.regex."1.1.2" = {
     aho_corasick = "0.6.10";
-    memchr = "2.2.0";
-    regex_syntax = "0.6.7";
+    memchr = "2.2.1";
+    regex_syntax = "0.6.11";
     thread_local = "0.3.6";
-    utf8_ranges = "1.0.3";
+    utf8_ranges = "1.0.4";
   };
-  deps.regex_syntax."0.6.7" = {
-    ucd_util = "0.1.3";
-  };
+  deps.regex_syntax."0.6.11" = {};
   deps.remove_dir_all."0.5.2" = {
     winapi = "0.3.7";
   };
   deps.rgb."0.8.13" = {};
-  deps.rustc_demangle."0.1.15" = {};
+  deps.rust_argon2."0.5.1" = {
+    base64 = "0.10.1";
+    blake2b_simd = "0.5.6";
+    crossbeam_utils = "0.6.6";
+  };
+  deps.rustc_demangle."0.1.16" = {};
+  deps.rustc_version."0.2.3" = {
+    semver = "0.9.0";
+  };
   deps.rustyline."4.1.0" = {
     dirs = "1.0.5";
-    libc = "0.2.58";
-    log = "0.4.6";
-    memchr = "2.2.0";
+    libc = "0.2.62";
+    log = "0.4.8";
+    memchr = "2.2.1";
     unicode_segmentation = "1.3.0";
     unicode_width = "0.1.5";
     nix = "0.13.1";
@@ -487,24 +643,29 @@ rec {
     winapi = "0.3.7";
   };
   deps.scoped_threadpool."0.1.9" = {};
+  deps.scopeguard."1.0.0" = {};
+  deps.semver."0.9.0" = {
+    semver_parser = "0.7.0";
+  };
+  deps.semver_parser."0.7.0" = {};
   deps.sha2."0.8.0" = {
     block_buffer = "0.7.3";
     digest = "0.8.1";
     fake_simd = "0.1.2";
-    opaque_debug = "0.2.2";
+    opaque_debug = "0.2.3";
   };
   deps.sig."1.0.0" = {
-    libc = "0.2.58";
+    libc = "0.2.62";
   };
   deps.subtle."1.0.0" = {};
   deps.syn."0.15.27" = {
     proc_macro2 = "0.4.27";
-    quote = "0.6.12";
+    quote = "0.6.13";
     unicode_xid = "0.1.0";
   };
   deps.synstructure."0.10.2" = {
     proc_macro2 = "0.4.27";
-    quote = "0.6.12";
+    quote = "0.6.13";
     syn = "0.15.27";
     unicode_xid = "0.1.0";
   };
@@ -513,24 +674,29 @@ rec {
     rand = "0.6.5";
     remove_dir_all = "0.5.2";
     redox_syscall = "0.1.56";
-    libc = "0.2.58";
+    libc = "0.2.62";
     winapi = "0.3.7";
   };
   deps.thread_local."0.3.6" = {
     lazy_static = "1.3.0";
   };
+  deps.tiff."0.2.2" = {
+    byteorder = "1.3.2";
+    lzw = "0.10.0";
+    num_derive = "0.2.5";
+    num_traits = "0.2.8";
+  };
   deps.time."0.1.42" = {
-    libc = "0.2.58";
+    libc = "0.2.62";
     redox_syscall = "0.1.56";
     winapi = "0.3.7";
   };
   deps.toml."0.2.1" = {};
   deps.typenum."1.10.0" = {};
-  deps.ucd_util."0.1.3" = {};
   deps.unicode_segmentation."1.3.0" = {};
   deps.unicode_width."0.1.5" = {};
   deps.unicode_xid."0.1.0" = {};
-  deps.utf8_ranges."1.0.3" = {};
+  deps.utf8_ranges."1.0.4" = {};
   deps.utf8parse."0.1.1" = {};
   deps.uuid."0.7.4" = {
     rand = "0.6.5";
@@ -550,12 +716,12 @@ rec {
   };
   deps.zmq."0.9.1" = {
     bitflags = "1.1.0";
-    libc = "0.2.58";
-    log = "0.4.6";
+    libc = "0.2.62";
+    log = "0.4.8";
     zmq_sys = "0.9.1";
   };
   deps.zmq_sys."0.9.1" = {
-    libc = "0.2.58";
+    libc = "0.2.62";
     metadeps = "1.1.2";
   };
 }

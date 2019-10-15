@@ -1,23 +1,24 @@
-{ callPackage, fetchFromGitHub, pkgconfig, buildRustCrateHelpers, defaultCrateOverrides, zeromq }:
-with buildRustCrateHelpers;
+{ lib, fetchgit, buildPlatform, buildRustCrate, buildRustCrateHelpers
+, defaultCrateOverrides, zeromq, pkgconfig }:
+
+
 let
-  evcxr-src = fetchFromGitHub {
-    owner = "google";
-    repo = "evcxr";
-    rev = "f375d872bb8560117780e7b9b83e9692e2cebb0e";
-    sha256 = "19yaamv10dzgknjpwsilxd0s2hq60qxgjlcwsvvz63cxr6q3mjbh";
+
+  evcxr-src = fetchgit {
+    url = git://github.com/google/evcxr;
+    rev = "v0.4.3";
+    sha256 = "08zsdl6pkg6dx7k0ns8cd070v7ydsxkscd2ms8wh9r68c08vwzcp";
   };
 
-  cratesIO = callPackage ./crates-io.nix {};
-
-  _crates = callPackage ./Cargo.nix { inherit cratesIO; };
-
-  evcxr_jupyter = (_crates.evcxr_jupyter {}).override {
-    crateOverrides = defaultCrateOverrides // {
-      evcxr = attrs: { src = evcxr-src; };
-      evcxr_jupyter = attrs: { src = evcxr-src; };
-      zmq-sys = attrs: { buildInputs = [ zeromq pkgconfig ]; };
-    };
-  };
 in
-  evcxr_jupyter
+
+((import ./Cargo.nix {
+  inherit lib buildPlatform buildRustCrate buildRustCrateHelpers fetchgit;
+  cratesIO = import ./crates-io.nix { inherit lib buildRustCrate buildRustCrateHelpers; };
+}).evcxr_jupyter {}).override {
+  crateOverrides = defaultCrateOverrides // {
+    evcxr = attrs: { src = evcxr-src; };
+    evcxr_jupyter = attrs: { src = evcxr-src; };
+    zmq-sys = attrs: { buildInputs = [ zeromq pkgconfig ]; };
+  };
+}
