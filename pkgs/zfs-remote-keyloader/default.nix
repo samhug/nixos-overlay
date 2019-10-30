@@ -19,7 +19,7 @@ buildGoModule rec {
   subPackages = [ "." ];
 
   buildInputs = [ stdenv.glibc.static ];
-  CGO_ENABLED=0;
+  CGO_ENABLED = 0;
   buildFlags = "-ldflags -s -ldflags -w -ldflags -linkmode=external -ldflags -extldflags=-static";
 
   meta = {

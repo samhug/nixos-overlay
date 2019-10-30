@@ -2,9 +2,13 @@
 
 let
   pythonWithPackages =
-    (python3.withPackages (ps: with ps; [
-      pykeepass
-    ]));
+    (
+      python3.withPackages (
+        ps: with ps; [
+          pykeepass
+        ]
+      )
+    );
 
 in
 

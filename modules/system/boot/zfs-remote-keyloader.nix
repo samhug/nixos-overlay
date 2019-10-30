@@ -13,8 +13,8 @@ in
       type = types.bool;
       default = false;
       description = ''
-        Start the zfs-remote-keyloader service during initrd boot.
-	Requires boot.initrd.networking.enable = true
+              Start the zfs-remote-keyloader service during initrd boot.
+        Requires boot.initrd.networking.enable = true
       '';
     };
 
@@ -30,7 +30,7 @@ in
       type = types.nullOr types.str;
       default = null;
       description = ''
-       The zfs dataset to load keys for.
+        The zfs dataset to load keys for.
       '';
     };
 
@@ -46,10 +46,12 @@ in
 
   config = mkIf (config.boot.initrd.network.enable && cfg.enable) {
     assertions = [
-      { assertion = config.boot.initrd.network.enable != false;
+      {
+        assertion = config.boot.initrd.network.enable != false;
         message = "boot.initrd.network.enable required for zfs-remote-keyloader";
       }
-      { assertion = cfg.zfsDataset != null;
+      {
+        assertion = cfg.zfsDataset != null;
         message = "You must specify a ZFS dataset to load keys for";
       }
     ];

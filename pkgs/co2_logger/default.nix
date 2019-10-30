@@ -3,7 +3,8 @@
 let
   inherit (pythonPackages) python buildPythonApplication callPackage;
   pycozir = callPackage ./pycozir.nix {};
-in buildPythonApplication rec {
+in
+buildPythonApplication rec {
   pname = "co2_logger";
   version = "0.1.0";
 
