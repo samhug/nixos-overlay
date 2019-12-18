@@ -13,7 +13,7 @@ buildGoModule rec {
     sha256 = "0nvpgz8kzmyhlv14n2ck90arr956k7xcxdk8ywimmyqg8pd4h9p0";
   };
 
-  modSha256 = "0dchvn37g3mly11xjg5ffay3mb7zmaq08xd6658zs0xd6a4ym7dg";
+  modSha256 = "1zbhbdjc24nlbydd65xq06qnblm5gvl5ggqxbicnabap1ghdar00";
 
   meta = {
     description = "A utility to assist with the automation of ETL tasks";
