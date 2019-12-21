@@ -1,29 +1,13 @@
-{ stdenv
-, buildGoModule
-, fetchFromGitHub
-}:
+{ pkgs ? import ./nix/pkgs.nix {} }:
 
-buildGoModule rec {
+pkgs.naersk.buildPackage rec {
   name = "zfs-remote-keyloader-${version}";
-  version = "0.0.2";
+  version = "0.1.0";
 
-  src = fetchFromGitHub {
+  src = pkgs.fetchFromGitHub {
     owner = "samhug";
     repo = "zfs-remote-keyloader";
-    rev = "v${version}";
-    sha256 = "1825fckb7s7zagvs7vgy3n7rrssp2p0a5dkhrnyp4k7fdg7dq4ii";
-  };
-
-  modSha256 = "0cjwz6gxcsj63hvwa7pmapsqabd740192951ql5h1ncil6c6pp40";
-
-  subPackages = [ "." ];
-
-  buildInputs = [ stdenv.glibc.static ];
-  CGO_ENABLED = 0;
-  buildFlags = "-ldflags -s -ldflags -w -ldflags -linkmode=external -ldflags -extldflags=-static";
-
-  meta = {
-    # TODO: description = "";
-    homepage = https://github.com/samhug/zfs-remote-keyloader;
+    rev = "52ddbfe8617a16fbf4485f626c0dafe9cb89d07a";
+    sha256 = "08jqgpknq0rld5i9rx2nypk479803bq2jlcl7a0cbyspkgbx252b";
   };
 }
