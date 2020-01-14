@@ -21,17 +21,10 @@ args = parser.parse_args()
 kbd_passwd = getpass('Enter KeePass master password: ')
 kp = PyKeePass(args.kdb, password=kbd_passwd)
 
-entries = kp.find_entries_by_path(args.entry)
+entry = kp.find_entries(path=args.entry)
 
-if not entries:
+if not entry:
     sys.stderr.write('No KeePass entry found at path "{}"'.format(args.entry))
     sys.exit(1)
-elif len(entries) > 1:
-    # Is this possible?
-    sys.stderr.write('Multiple KeePass entries found at path "{}"'.format(
-        args.entry))
-    sys.exit(1)
-
-entry = entries[0]
 
 print(entry.password)
