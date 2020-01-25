@@ -11,6 +11,7 @@ in
   get-keepass-entry = callPackage ./get-keepass-entry {};
   mosh = callPackage ./mosh { inherit (super) mosh; };
   ndm = callPackage ./ndm {};
+  pomerium = callPackage ./pomerium.nix {};
   termproxy = callPackage ./termproxy {};
   wy60 = callPackage ./wy60 {};
   zfs-remote-keyloader = callPackage ./zfs-remote-keyloader {};
