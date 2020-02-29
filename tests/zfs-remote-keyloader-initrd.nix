@@ -121,6 +121,7 @@ makeTest {
 
       zfsEncryptionKey = "password";
       zfsPoolName = "rpool";
+      listenPort = 3333;
 
       # The configuration to install.
       configuration = pkgs.writeText "configuration.nix"
@@ -149,6 +150,7 @@ makeTest {
             boot.initrd.zfs-remote-keyloader = {
               enable = true;
               zfsDataset = "${zfsPoolName}";
+              listenAddr = "0.0.0.0:${toString listenPort}";
             };
 
             # Using by-uuid overrides the default of by-id, and is unique
@@ -267,9 +269,9 @@ makeTest {
         # Attempt to send the decription key from the client vm
         client.wait_for_unit("multi-user.target")
         client.wait_until_succeeds("ping -c1 machine >&2")
-        client.wait_until_succeeds("nc -zw3 machine 3333")
-        client.succeed("curl http://machine:3333/")
-        client.succeed("curl -X POST -F 'decryption-key=${zfsEncryptionKey}' http://machine:3333/")
+        client.wait_until_succeeds("nc -zw3 machine ${toString listenPort}")
+        client.succeed("curl http://machine:${toString listenPort}/")
+        client.succeed("curl -X POST -d 'key=${zfsEncryptionKey}' http://machine:${toString listenPort}/loadkey")
 
         # Make sure we successfully boot
         machine.wait_for_unit("multi-user.target")

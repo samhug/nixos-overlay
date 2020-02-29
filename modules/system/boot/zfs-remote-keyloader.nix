@@ -13,7 +13,7 @@ in
       type = types.bool;
       default = false;
       description = ''
-              Start the zfs-remote-keyloader service during initrd boot.
+        Start the zfs-remote-keyloader service during initrd boot.
         Requires boot.initrd.networking.enable = true
       '';
     };
@@ -36,7 +36,7 @@ in
 
     listenAddr = mkOption {
       type = types.str;
-      default = ":3333";
+      default = "0.0.0.0:3333";
       description = ''
         Address the HTTP service should listen on.
       '';
@@ -67,7 +67,7 @@ in
     boot.initrd.postDeviceCommands = ''
       # run the keyloader in the background and if it succeeds, kill any other zfs prompts
       (
-        zfs-remote-keyloader server --dataset ${cfg.zfsDataset} --listen ${cfg.listenAddr} && \
+        zfs-remote-keyloader --listen ${cfg.listenAddr} --zfs-dataset ${cfg.zfsDataset} && \
         killall zfs
       ) &
     '';
