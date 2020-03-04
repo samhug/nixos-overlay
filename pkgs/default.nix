@@ -9,7 +9,6 @@ in
   etlcmd = callPackage ./etlcmd {};
   evcxrKernelWith = callPackage ./jupyter-kernels/evcxr.nix;
   get-keepass-entry = callPackage ./get-keepass-entry {};
-  mosh = callPackage ./mosh { inherit (super) mosh; };
   ndm = callPackage ./ndm {};
   pomerium = callPackage ./pomerium.nix {};
   termproxy = callPackage ./termproxy {};
