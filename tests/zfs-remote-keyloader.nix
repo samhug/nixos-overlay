@@ -1,9 +1,9 @@
 { system ? builtins.currentSystem
 , config ? {}
-, pkgs ? import (import ./nix/pkgs-src.nix) { inherit system config; }
+, pkgs ? import <nixpkgs> { inherit system config; }
 }:
 
-with import "${import ./nix/pkgs-src.nix}/nixos/lib/testing-python.nix" { inherit system pkgs; };
+with import "${pkgs.path}/nixos/lib/testing-python.nix" { inherit system pkgs; };
 with pkgs.lib;
 let
   overlay-src = ../.;
