@@ -1,15 +1,15 @@
 { lib, rustPlatform, fetchFromGitHub }:
 
-rustPlatform.buildRustPackage {
+rustPlatform.buildRustPackage rec {
   pname = "zfs-remote-keyloader";
-  version = "0.1.0";
+  version = "0.2.0";
 
   src = fetchFromGitHub {
     owner = "samhug";
     repo = "zfs-remote-keyloader";
-    rev = "5d5f543895374bb8efdea6b2f6f2bc9e431e050f";
-    sha256 = "0qjmyvpdhnd3q7piylwpynhrinyvyln2vyc4cdxssvcdm6qn4nxk";
+    rev = "v${version}";
+    sha256 = "0gxf72qz4rnprwqn7i850qx1vjv0qm6s0rh9ipnxi4i8hmac87iz";
   };
 
-  cargoSha256 = "1is8972qj7ynpl2phpads9qmiifp0dsy870b8pc89bl2hy1il1ai";
+  cargoSha256 = "0sdbp38fw44icvl7wdyb1wsipah3kr37q2nq0jdykcs6pynicvxx";
 }
