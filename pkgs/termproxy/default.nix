@@ -1,22 +1,33 @@
-{ stdenv, pkgs, ... }:
+{ stdenv
+, cpio
+, rpm
+, autoPatchelfHook
+}:
 
-stdenv.mkDerivation rec {
-  name = "termproxy-${version}";
+stdenv.mkDerivation {
+  pname = "termproxy";
   version = "4.0.3";
-
-  buildInputs = with pkgs; [ cpio rpm ];
 
   src = builtins.fetchurl {
     url = "http://download.wavelink.com/Files/wltn_linux_termproxy_4_0_3.i386.rpm";
     sha256 = "14dzfjfg2laarx4dbxq3w17pndz5lvl8f9cixvi0r8cqq15mg7jn";
   };
 
+  nativeBuildInputs = [
+    cpio
+    rpm
+    autoPatchelfHook
+  ];
+
   # extract the rpm file tree to the local directory
   unpackPhase = ''
-    ${pkgs.rpm}/bin/rpm2cpio $src | ${pkgs.cpio}/bin/cpio -idm './opt/wavelink/termproxy/*' 
+    rpm2cpio $src | cpio -idm './opt/wavelink/termproxy/*'
   '';
 
-  dontBuild = true;
+  doInstallCheck = true;
+  installCheckPhase = ''
+    $out/bin/termproxy -h &2>/dev/null
+  '';
 
   installPhase = ''
     mkdir -p $out/bin
@@ -35,6 +46,5 @@ stdenv.mkDerivation rec {
     longDescription = ''The ConnectPro Server allows you to avoid dropped connections and"
       automatically reconnect by acting as an intermediary connection server
       between the client device and the host application server.'';
-    platforms = [ "i686-linux" "x86_64-linux" ];
   };
 }
