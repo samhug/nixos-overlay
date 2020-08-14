@@ -2,7 +2,7 @@
 
 buildGoModule rec {
   pname = "etlcmd";
-  version = "0.3.7";
+  version = "0.3.8";
 
   goPackagePath = "github.com/samhug/etlcmd";
 
@@ -10,10 +10,10 @@ buildGoModule rec {
     owner = "samhug";
     repo = pname;
     rev = "v${version}";
-    sha256 = "0f0g3rcmjh7rjymzjllp1i0bnsi1n91c9vhnblkb77p15wz9wywp";
+    sha256 = "1f8gv51pnj5qll7zfwvz1jscw2j7dw9zhlym86a9nrlng1f33vwg";
   };
 
-  vendorSha256 = "09ns1xcqb3yc20jn6iapajkmkfqx44x5r67g5hwxz9ym6l87ys4v";
+  vendorSha256 = "15xcjrkhvqsjybfqz6vgnk4w3hn8lymmg99j1f4yyna4q98fmwfa";
 
   meta = {
     description = "A utility to assist with the automation of ETL tasks";
