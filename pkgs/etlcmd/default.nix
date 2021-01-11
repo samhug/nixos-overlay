@@ -4,8 +4,6 @@ buildGoModule rec {
   pname = "etlcmd";
   version = "0.3.8";
 
-  goPackagePath = "github.com/samhug/etlcmd";
-
   src = fetchFromGitHub {
     owner = "samhug";
     repo = pname;
